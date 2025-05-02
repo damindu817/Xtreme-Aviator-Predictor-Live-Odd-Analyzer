@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live Aviator Signal System</title>
+  <title>Aviator Live 2× Odds Analyzer Predictor : 1xbet</title>
   <style>
     :root {
       --bg-color: #ffffff;
@@ -161,7 +161,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Live Aviator Signal System</h1>
+      <h1>Aviator Live 2× Odds Analyzer Predictor : 1xbet</h1>
     </div>
 
     <div class="datetime" id="datetime"></div>
@@ -200,154 +200,87 @@
     </div>
   </div>
 
-  <script>
-    const oddValues = [];
-    let stage = 1;
+<script>
+  const oddValues = [];
+  let stage = 1;
+  let firstSignalShown = false;
 
-    function updateDateTime() {
-      const now = new Date();
-      const formatted = now.toLocaleString('si-LK');
-      document.getElementById('datetime').innerText = `Live Time: ${formatted}`;
+  function updateDateTime() {
+    const now = new Date();
+    const formatted = now.toLocaleString('si-LK');
+    document.getElementById('datetime').innerText = `Live Time: ${formatted}`;
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  function getSum() {
+    return oddValues.reduce((a, b) => a + b, 0);
+  }
+
+  function updateOddDisplay() {
+    const displayDiv = document.getElementById('oddDisplay');
+    if (oddValues.length > 0) {
+      displayDiv.innerText = 'ඔබ ඇතුළත් කළ ODD අගයන්: ' + oddValues.join(', ');
+    } else {
+      displayDiv.innerText = 'කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.';
     }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
+  }
 
-    function getSum() {
-      return oddValues.reduce((a, b) => a + b, 0);
+  function addOdd() {
+    const input = document.getElementById('oddInput');
+    const value = parseFloat(input.value);
+    if (!isNaN(value) && value >= 1 && value < 3) {
+      oddValues.push(value);
+      input.value = '';
+      checkSignal();
+      updateOddDisplay();
+      if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
+    } else {
+      document.getElementById('signalMessage').innerText = 'කරුණාකර 1.00 සිට 2.99 අතර වලංගු ODD අගයක් ඇතුළත් කරන්න.';
     }
+  }
 
-    function updateOddDisplay() {
-      const displayDiv = document.getElementById('oddDisplay');
-      if (oddValues.length > 0) {
-        displayDiv.innerText = 'ඔබ ඇතුළත් කළ ODD අගයන්: ' + oddValues.join(', ');
-      } else {
-        displayDiv.innerText = 'කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.';
-      }
-    }
-
-    function addOdd() {
-      const input = document.getElementById('oddInput');
-      const value = parseFloat(input.value);
-      if (!isNaN(value) && value >= 1 && value < 3) {
-        oddValues.push(value);
-        input.value = '';
-        checkSignal();
-        updateOddDisplay();
-        if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
-        document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
-      } else {
-        document.getElementById('signalMessage').innerText = 'කරුණාකර 1.00 සිට 2.99 අතර වලංගු ODD අගයක් ඇතුළත් කරන්න.';
-      }
-    }
-
-    function clearAllOdds() {
-      if (confirm("ඔබට සියළු ODD අගයන් ඉවත් කිරීමට අවශ්‍යද?")) {
-        oddValues.length = 0;
-        stage = 1;
-        updateOddDisplay();
-        if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
-        document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
-        document.getElementById('editSection').style.display = 'none';
-      }
-    }
-
-    function checkSignal() {
-      const sum = getSum();
-      let message = "";
-      let showPopup = false;
-
-      if (stage === 1 && sum >= 9.5 && sum <= 9.98) {
-        message = "පළමු වටය සඳහා 2× Auto Bet ක්ෂණිකව ක්‍රීඩා කරන්න!";
-        showPopup = true;
-      } else if (stage === 2 && sum >= 12.05 && sum <= 12.98) {
-        message = "දෙවැනි වටය සඳහා ක්ෂණිකව ක්‍රීඩා කරන්න!";
-        showPopup = true;
-      } else if (stage === 3 && sum >= 29.0 && sum <= 29.98) {
-        message = "අවසන් වටය! දැන් ක්‍රියාත්මක කරන්න!";
-        showPopup = true;
-      } else if ((stage === 1 && sum > 9.98) || (stage === 2 && sum > 12.98)) {
-        document.getElementById('signalMessage').innerText = `වට ${stage} සඳහා signal එකක් හමු නොවුණි.`;
-      }
-
-      if (showPopup) {
-        document.getElementById("popupText").innerText = message;
-        const modal = document.getElementById("popupModal");
-        modal.style.display = "block";
-        setTimeout(() => {
-          modal.style.opacity = "1";
-          modal.style.pointerEvents = "auto";
-        }, 10);
-      }
-    }
-
-    function handleResult(won) {
-      const modal = document.getElementById("popupModal");
-      modal.style.opacity = "0";
-      modal.style.pointerEvents = "none";
-      setTimeout(() => { modal.style.display = "none"; }, 300);
-
-      if (!won) {
-        stage++;
-        if (stage > 3) {
-          showCustomMessage("කණගාටුයි! සියලුම වටයන් අසාර්ථකයි. ඔබගේ දත්ත රීසෙට් කර ඇත. නැවත උත්සාහ කරන්න.");
-          oddValues.length = 0;
-          stage = 1;
-        } else {
-          showCustomMessage(`ඔබ පරාජය වූවා! දැන් වටය ${stage} වෙත ගමන් කරන්න.`);
-        }
-      } else {
-        showCustomMessage("ඔබ ජයග්‍රහණයක් අත්කර ගත්තා!");
-        oddValues.length = 0;
-        stage = 1;
-      }
-
+  function clearAllOdds() {
+    if (confirm("ඔබට සියළු ODD අගයන් ඉවත් කිරීමට අවශ්‍යද?")) {
+      oddValues.length = 0;
+      stage = 1;
+      firstSignalShown = false;
       updateOddDisplay();
       document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
       if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
     }
+  }
 
-    function toggleEditSection() {
-      const section = document.getElementById('editSection');
-      if (section.style.display === 'none') {
-        section.style.display = 'block';
-        refreshEditOddList();
-      } else {
-        section.style.display = 'none';
-      }
-    }
+  function checkSignal() {
+    const sum = getSum();
+    let message = "";
+    let showPopup = false;
 
-    function refreshEditOddList() {
-      const list = document.getElementById("editOddList");
-      list.innerHTML = "";
-      oddValues.forEach((val, i) => {
-        list.innerHTML += `<div style="margin-bottom:5px;">
-          <input type="number" min="1" max="2.99" step="0.01" value="${val}" id="odd_edit_${i}" style="width: 60px; margin-right: 10px;" />
-          <span style="opacity: 0.7;">#${i + 1}</span>
-        </div>`;
-      });
-    }
-
-    function applyOddChanges() {
-      const newValues = [];
-      for (let i = 0; i < oddValues.length; i++) {
-        const val = parseFloat(document.getElementById(`odd_edit_${i}`).value);
-        if (!isNaN(val) && val >= 1 && val < 3) {
-          newValues.push(val);
+    if (stage === 1) {
+      if (!firstSignalShown) {
+        if (sum > 9.5 && sum <= 9.98) {
+          message = "පළමු වටය සඳහා 2× Auto Bet ක්ෂණිකව ක්‍රීඩා කරන්න!";
+          showPopup = true;
+          firstSignalShown = true;
+        } else if (sum > 9.98) {
+          document.getElementById('signalMessage').innerText =
+            "වට 1 සඳහා signal එකක් හමු නොවුණි. කරුණාකර ODD අගයන් ඇතුළත් කරමින් ඉදිරියට යන්න.";
+          firstSignalShown = true;
         }
       }
-      updateOddValues(newValues);
-      showCustomMessage("ODD අගයන් යාවත්කාලීන කර ඇත!");
+    } else if (stage === 2 && sum >= 12.05 && sum <= 12.98) {
+      message = "දෙවැනි වටය සඳහා ක්ෂණිකව ක්‍රීඩා කරන්න!";
+      showPopup = true;
+    } else if (stage === 3 && sum >= 29.0 && sum <= 29.98) {
+      message = "අවසන් වටය! දැන් ක්‍රියාත්මක කරන්න!";
+      showPopup = true;
+    } else if ((stage === 2 && sum > 12.98)) {
+      document.getElementById('signalMessage').innerText =
+        `වට ${stage} සඳහා signal එකක් හමු නොවුණි.`;
     }
 
-    function updateOddValues(newList) {
-      oddValues.length = 0;
-      oddValues.push(...newList);
-      checkSignal();
-      updateOddDisplay();
-    }
-  
-    function showCustomMessage(text) {
-      document.getElementById("popupText").innerText = text;
+    if (showPopup) {
+      document.getElementById("popupText").innerText = message;
       const modal = document.getElementById("popupModal");
       modal.style.display = "block";
       setTimeout(() => {
@@ -355,14 +288,93 @@
         modal.style.pointerEvents = "auto";
       }, 10);
     }
+  }
 
-    function closeModal() {
-      const modal = document.getElementById("popupModal");
-      modal.style.opacity = "0";
-      modal.style.pointerEvents = "none";
-      setTimeout(() => { modal.style.display = "none"; }, 300);
+  function handleResult(won) {
+    const modal = document.getElementById("popupModal");
+    modal.style.opacity = "0";
+    modal.style.pointerEvents = "none";
+    setTimeout(() => { modal.style.display = "none"; }, 300);
+
+    if (!won) {
+      stage++;
+      firstSignalShown = false;
+      if (stage > 3) {
+        showCustomMessage("කණගාටුයි! සියලුම වටයන් අසාර්ථකයි. ඔබගේ දත්ත රීසෙට් කර ඇත. නැවත උත්සාහ කරන්න.");
+        oddValues.length = 0;
+        stage = 1;
+      } else {
+        showCustomMessage(`ඔබ පරාජය වූවා! දැන් වටය ${stage} වෙත ගමන් කරන්න.`);
+      }
+    } else {
+      showCustomMessage("ඔබ ජයග්‍රහණයක් අත්කර ගත්තා!");
+      oddValues.length = 0;
+      stage = 1;
     }
-    
+
+    updateOddDisplay();
+    firstSignalShown = false;
+    document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
+    if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
+  }
+
+  function toggleEditSection() {
+    const section = document.getElementById('editSection');
+    if (section.style.display === 'none') {
+      section.style.display = 'block';
+      refreshEditOddList();
+    } else {
+      section.style.display = 'none';
+    }
+  }
+
+  function refreshEditOddList() {
+    const list = document.getElementById("editOddList");
+    list.innerHTML = "";
+    oddValues.forEach((val, i) => {
+      list.innerHTML += `<div style="margin-bottom:5px;">
+        <input type="number" min="1" max="2.99" step="0.01" value="${val}" id="odd_edit_${i}" style="width: 60px; margin-right: 10px;" />
+        <span style="opacity: 0.7;">#${i + 1}</span>
+      </div>`;
+    });
+  }
+
+  function applyOddChanges() {
+    const newValues = [];
+    for (let i = 0; i < oddValues.length; i++) {
+      const val = parseFloat(document.getElementById(`odd_edit_${i}`).value);
+      if (!isNaN(val) && val >= 1 && val < 3) {
+        newValues.push(val);
+      }
+    }
+    updateOddValues(newValues);
+    showCustomMessage("ODD අගයන් යාවත්කාලීන කර ඇත!");
+  }
+
+  function updateOddValues(newList) {
+    oddValues.length = 0;
+    oddValues.push(...newList);
+    firstSignalShown = false;
+    checkSignal();
+    updateOddDisplay();
+  }
+
+  function showCustomMessage(text) {
+    document.getElementById("popupText").innerText = text;
+    const modal = document.getElementById("popupModal");
+    modal.style.display = "block";
+    setTimeout(() => {
+      modal.style.opacity = "1";
+      modal.style.pointerEvents = "auto";
+    }, 10);
+  }
+
+  function closeModal() {
+    const modal = document.getElementById("popupModal");
+    modal.style.opacity = "0";
+    modal.style.pointerEvents = "none";
+    setTimeout(() => { modal.style.display = "none"; }, 300);
+  }
 </script>
 </body>
 </html>
