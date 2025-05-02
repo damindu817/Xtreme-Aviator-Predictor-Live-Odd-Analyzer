@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Aviator Signal System</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --card-bg: #f9f9f9;
+      --text-color: #212121;
+      --accent-color: #7e57c2;
+      --danger-color: #e53935;
+      --enter-color: #43a047;
+      --cashout-color: #fb8c00;
+      --outline-color: #ccc;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      margin: 20px auto;
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid var(--outline-color);
+    }
+
+    .header, .datetime, .footer, .message-box {
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid var(--outline-color);
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    .header h1 {
+      color: var(--danger-color);
+      margin: 0;
+    }
+
+    .message-box {
+      min-height: 60px;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid var(--outline-color);
+      background-color: #ffffff;
+      color: var(--text-color);
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--enter-color);
+      border: none;
+      color: white;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    button.danger {
+      background-color: var(--danger-color);
+    }
+
+    button.clear {
+      background-color: #607d8b;
+    }
+
+    .footer {
+      font-size: 0.9em;
+      opacity: 0.6;
+    }
+
+    #editSection {
+      display: none;
+      border: 1px solid var(--outline-color);
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f1f8e9;
+      margin-bottom: 15px;
+    }
+
+    #editSection h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    #editOddList {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    #stickyFooter {
+      position: sticky;
+      bottom: 0;
+      background-color: #f1f8e9;
+      padding-top: 10px;
+    }
+
+    .modal {
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .modal-content p {
+      margin-bottom: 20px;
+    }
+
+    .popup-buttons button {
+      width: 45%;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Live Aviator Signal System</h1>
+    </div>
+
+    <div class="datetime" id="datetime"></div>
+
+    <div class="message-box" id="signalMessage">
+      ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.
+    </div>
+
+    <div id="oddDisplay" class="message-box" style="background-color:#e3f2fd; color:#1565c0;">
+      කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.
+    </div>
+
+    <input type="number" id="oddInput" placeholder="ඔබේ odd අගය ඇතුළත් කරන්න (උදා: 1.85)" />
+    <button onclick="addOdd()">Add Odd</button>
+    <button class="clear" onclick="clearAllOdds()">Clear All</button>
+    <button onclick="toggleEditSection()">ODD බලන්න/සංස්කරණය කරන්න</button>
+
+    <div id="editSection">
+      <h3>ODD සංස්කරණය</h3>
+      <div id="editOddList"></div>
+      <div id="stickyFooter">
+        <button onclick="applyOddChanges()" style="background-color:#e53935;color:white;">යාවත්කාලීන කරන්න</button>
+      </div>
+    </div>
+
+    <div class="footer">© 2025 Aviator Live System - All rights reserved</div>
+  </div>
+
+  <div id="popupModal" class="modal">
+    <div class="modal-content" id="popupContent">
+      <p id="popupText"><strong>2× Auto Bet ගන්න සහ ක්ෂණිකව ක්‍රීඩා කරන්න!</strong></p>
+      <div class="popup-buttons">
+        <button style="background-color: green;" onclick="handleResult(true)">ජය</button>
+        <button style="background-color: red;" onclick="handleResult(false)">පරාජය</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const oddValues = [];
+    let stage = 1;
+
+    function updateDateTime() {
+      const now = new Date();
+      const formatted = now.toLocaleString('si-LK');
+      document.getElementById('datetime').innerText = `Live Time: ${formatted}`;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    function getSum() {
+      return oddValues.reduce((a, b) => a + b, 0);
+    }
+
+    function updateOddDisplay() {
+      const displayDiv = document.getElementById('oddDisplay');
+      if (oddValues.length > 0) {
+        displayDiv.innerText = 'ඔබ ඇතුළත් කළ ODD අගයන්: ' + oddValues.join(', ');
+      } else {
+        displayDiv.innerText = 'කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.';
+      }
+    }
+
+    function addOdd() {
+      const input = document.getElementById('oddInput');
+      const value = parseFloat(input.value);
+      if (!isNaN(value) && value >= 1 && value < 3) {
+        oddValues.push(value);
+        input.value = '';
+        checkSignal();
+        updateOddDisplay();
+        if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
+        document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
+      } else {
+        document.getElementById('signalMessage').innerText = 'කරුණාකර 1.00 සිට 2.99 අතර වලංගු ODD අගයක් ඇතුළත් කරන්න.';
+      }
+    }
+
+    function clearAllOdds() {
+      if (confirm("ඔබට සියළු ODD අගයන් ඉවත් කිරීමට අවශ්‍යද?")) {
+        oddValues.length = 0;
+        stage = 1;
+        updateOddDisplay();
+        if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
+        document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
+        document.getElementById('editSection').style.display = 'none';
+      }
+    }
+
+    function checkSignal() {
+      const sum = getSum();
+      let message = "";
+      let showPopup = false;
+
+      if (stage === 1 && sum >= 9.5 && sum <= 9.98) {
+        message = "පළමු වටය සඳහා 2× Auto Bet ක්ෂණිකව ක්‍රීඩා කරන්න!";
+        showPopup = true;
+      } else if (stage === 2 && sum >= 12.05 && sum <= 12.98) {
+        message = "දෙවැනි වටය සඳහා ක්ෂණිකව ක්‍රීඩා කරන්න!";
+        showPopup = true;
+      } else if (stage === 3 && sum >= 29.0 && sum <= 29.98) {
+        message = "අවසන් වටය! දැන් ක්‍රියාත්මක කරන්න!";
+        showPopup = true;
+      } else if ((stage === 1 && sum > 9.98) || (stage === 2 && sum > 12.98)) {
+        document.getElementById('signalMessage').innerText = `වට ${stage} සඳහා signal එකක් හමු නොවුණි.`;
+      }
+
+      if (showPopup) {
+        document.getElementById("popupText").innerText = message;
+        const modal = document.getElementById("popupModal");
+        modal.style.display = "block";
+        setTimeout(() => {
+          modal.style.opacity = "1";
+          modal.style.pointerEvents = "auto";
+        }, 10);
+      }
+    }
+
+    function handleResult(won) {
+      const modal = document.getElementById("popupModal");
+      modal.style.opacity = "0";
+      modal.style.pointerEvents = "none";
+      setTimeout(() => { modal.style.display = "none"; }, 300);
+
+      if (!won) {
+        stage++;
+        if (stage > 3) {
+          showCustomMessage("කණගාටුයි! සියලුම වටයන් අසාර්ථකයි. ඔබගේ දත්ත රීසෙට් කර ඇත. නැවත උත්සාහ කරන්න.");
+          oddValues.length = 0;
+          stage = 1;
+        } else {
+          showCustomMessage(`ඔබ පරාජය වූවා! දැන් වටය ${stage} වෙත ගමන් කරන්න.`);
+        }
+      } else {
+        showCustomMessage("ඔබ ජයග්‍රහණයක් අත්කර ගත්තා!");
+        oddValues.length = 0;
+        stage = 1;
+      }
+
+      updateOddDisplay();
+      document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
+      if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
+    }
+
+    function toggleEditSection() {
+      const section = document.getElementById('editSection');
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        refreshEditOddList();
+      } else {
+        section.style.display = 'none';
+      }
+    }
+
+    function refreshEditOddList() {
+      const list = document.getElementById("editOddList");
+      list.innerHTML = "";
+      oddValues.forEach((val, i) => {
+        list.innerHTML += `<div style="margin-bottom:5px;">
+          <input type="number" min="1" max="2.99" step="0.01" value="${val}" id="odd_edit_${i}" style="width: 60px; margin-right: 10px;" />
+          <span style="opacity: 0.7;">#${i + 1}</span>
+        </div>`;
+      });
+    }
+
+    function applyOddChanges() {
+      const newValues = [];
+      for (let i = 0; i < oddValues.length; i++) {
+        const val = parseFloat(document.getElementById(`odd_edit_${i}`).value);
+        if (!isNaN(val) && val >= 1 && val < 3) {
+          newValues.push(val);
+        }
+      }
+      updateOddValues(newValues);
+      showCustomMessage("ODD අගයන් යාවත්කාලීන කර ඇත!");
+    }
+
+    function updateOddValues(newList) {
+      oddValues.length = 0;
+      oddValues.push(...newList);
+      checkSignal();
+      updateOddDisplay();
+    }
+  
+    function showCustomMessage(text) {
+      document.getElementById("popupText").innerText = text;
+      const modal = document.getElementById("popupModal");
+      modal.style.display = "block";
+      setTimeout(() => {
+        modal.style.opacity = "1";
+        modal.style.pointerEvents = "auto";
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("popupModal");
+      modal.style.opacity = "0";
+      modal.style.pointerEvents = "none";
+      setTimeout(() => { modal.style.display = "none"; }, 300);
+    }
+    
+</script>
+</body>
+</html>
