@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Live 2× Odds Analyzer Predictor | 1xBet Strategy Tool</title>
+    <title>Aviator 2× Odds Predictor | 1xBet Strategy Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -605,7 +605,7 @@
         <!-- Header -->
         <header class="app-header">
             <div class="logo">2×</div>
-            <h1>Aviator Live 2× Odds Analyzer</h1>
+            <h1>Aviator Odds Analyzer</h1>
             <p>1xBet Strategy Predictor Tool</p>
         </header>
         
@@ -763,7 +763,7 @@
         const state = {
             currentRound: 1,
             allOdds: [], // Stores all odds with round information
-            roundSums: [0, 0, 0], // Sums for each round
+            cumulativeSums: [0, 0, 0], // Cumulative sums for each round (includes previous rounds)
             roundStatus: ['active', 'pending', 'pending'] // active, completed, failed, pending
         };
         
@@ -867,8 +867,10 @@
                 round: state.currentRound
             });
             
-            // Update current round sum
-            state.roundSums[state.currentRound-1] += oddValue;
+            // Update cumulative sums for all rounds from current round onwards
+            for (let i = state.currentRound - 1; i < 3; i++) {
+                state.cumulativeSums[i] += oddValue;
+            }
             
             // Check for signal
             checkForSignal();
@@ -887,7 +889,7 @@
         // Check if we've reached a signal condition
         function checkForSignal() {
             const currentRoundIndex = state.currentRound - 1;
-            const currentSum = state.roundSums[currentRoundIndex];
+            const currentSum = state.cumulativeSums[currentRoundIndex];
             const targetSum = targetSums[currentRoundIndex];
             const maxSum = maxSums[currentRoundIndex];
             
@@ -936,7 +938,7 @@
         // Show signal modal with animation
         function showSignalModal() {
             const roundNames = ["පළමු", "දෙවන", "තෙවන"];
-            const currentSum = state.roundSums[state.currentRound-1];
+            const currentSum = state.cumulativeSums[state.currentRound-1];
             
             elements.modalTitle.textContent = `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
             elements.modalMessage.textContent = 
@@ -1016,7 +1018,7 @@
         function resetForNewRound() {
             state.currentRound = 1;
             state.allOdds = [];
-            state.roundSums = [0, 0, 0];
+            state.cumulativeSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             updateUI();
@@ -1027,7 +1029,7 @@
         function resetAll() {
             state.currentRound = 1;
             state.allOdds = [];
-            state.roundSums = [0, 0, 0];
+            state.cumulativeSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             showStatusMessage("පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න.", "info");
@@ -1062,8 +1064,13 @@
             const oddToEdit = state.allOdds[elements.currentEditingIndex];
             const roundIndex = oddToEdit.round - 1;
             
-            // Update the sum for the round
-            state.roundSums[roundIndex] = state.roundSums[roundIndex] - oddToEdit.value + newValue;
+            // Calculate the difference
+            const difference = newValue - oddToEdit.value;
+            
+            // Update the cumulative sums for all rounds from the edited round onwards
+            for (let i = roundIndex; i < 3; i++) {
+                state.cumulativeSums[i] += difference;
+            }
             
             // Update the odd value
             oddToEdit.value = newValue;
@@ -1086,8 +1093,10 @@
             const oddToDelete = state.allOdds[index];
             const roundIndex = oddToDelete.round - 1;
             
-            // Update the sum for the round
-            state.roundSums[roundIndex] -= oddToDelete.value;
+            // Update the cumulative sums for all rounds from the deleted round onwards
+            for (let i = roundIndex; i < 3; i++) {
+                state.cumulativeSums[i] -= oddToDelete.value;
+            }
             
             // Remove the odd
             state.allOdds.splice(index, 1);
