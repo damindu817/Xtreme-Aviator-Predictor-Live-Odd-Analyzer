@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Live 2× Odds Analyzer Predictor | 1xBet Strategy Tool</title>
+    <title>Aviator 2× Odds Predictor | 1xBet Strategy Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -53,7 +53,7 @@
         .app-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 1.8rem 1.5rem 1.2rem; /* Adjusted padding to move text down */
+            padding: 1.8rem 1.5rem 1.2rem;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
@@ -118,7 +118,7 @@
             padding: 1rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .dashboard-card:hover {
@@ -153,7 +153,7 @@
             padding: 1.25rem;
             margin-bottom: 1rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .card:hover {
@@ -370,7 +370,7 @@
             width: 100%;
             max-width: 400px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transform: scale(0.9);
             animation: modalFadeIn 0.3s ease-out forwards;
         }
@@ -578,30 +578,6 @@
             opacity: 0.8;
         }
         
-        .app-footer a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        
-        .app-footer a:hover {
-            text-decoration: underline;
-            opacity: 1;
-        }
-        
-        /* Responsive Adjustments */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 500px;
-                padding: 1rem;
-            }
-            
-            .app-header h1 {
-                font-size: 1.75rem;
-            }
-        }
-        
         /* Animations */
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -621,21 +597,6 @@
         
         .bounce {
             animation: bounce 1s;
-        }
-        
-        /* Loading animation */
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -699,9 +660,6 @@
                 <button class="btn btn-outline" id="resetBtn">
                     <i class="fas fa-redo"></i> යළි පිහිටුවන්න
                 </button>
-                <button class="btn btn-outline" id="autoBtn" style="display: none;">
-                    <i class="fas fa-bolt"></i> Auto Bet
-                </button>
             </div>
         </div>
         
@@ -730,11 +688,8 @@
                 <p style="margin-bottom: 0.75rem;">
                     <strong>2.</strong> ඊළඟ round එකේ සිට odd අගයන් (1.00× - 2.99×) ඇතුළත් කරන්න
                 </p>
-                <p style="margin-bottom: 0.75rem;">
-                    <strong>3.</strong> පහත ඉලක්ක එකතුවන් අනුව සිග්නල් ලැබෙන තුරු අගයන් ඇතුළත් කරන්න
-                </p>
                 <p>
-                    <strong>4.</strong> සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න
+                    <strong>3.</strong> සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න
                 </p>
             </div>
         </div>
@@ -777,7 +732,7 @@
                 <p>සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="finalConfirmBtn" style="flex: none; width: 100%;">
+                <button class="btn btn-primary" id="finalConfirmBtn">
                     <i class="fas fa-redo"></i> තේරුම් ගතිමි
                 </button>
             </div>
@@ -808,21 +763,19 @@
         const state = {
             currentRound: 1,
             allOdds: [], // Stores all odds with round information
+            roundSums: [0, 0, 0], // Sums for each round
             roundStatus: ['active', 'pending', 'pending'] // active, completed, failed, pending
         };
         
-        // Secret formula values
-        const secretFormula = {
-            targetSums: [9.10, 12.05, 29.00],  // Target sums for each round
-            maxSums: [9.98, 12.98, 29.99]      // Maximum sums for each round
-        };
+        // Target sums for each round
+        const targetSums = [9.10, 12.05, 29.00];
+        const maxSums = [9.98, 12.98, 29.99];
         
         // DOM Elements
         const elements = {
             oddInput: document.getElementById('oddInput'),
             addOddBtn: document.getElementById('addOddBtn'),
             resetBtn: document.getElementById('resetBtn'),
-            autoBtn: document.getElementById('autoBtn'),
             currentRoundEl: document.getElementById('currentRound'),
             oddsCountEl: document.getElementById('oddsCount'),
             enteredOddsListEl: document.getElementById('oddsListItems'),
@@ -914,6 +867,9 @@
                 round: state.currentRound
             });
             
+            // Update current round sum
+            state.roundSums[state.currentRound-1] += oddValue;
+            
             // Check for signal
             checkForSignal();
             
@@ -928,19 +884,12 @@
             saveState();
         }
         
-        // Calculate sum only for current round's odds
-        function calculateCurrentRoundSum() {
-            return state.allOdds
-                .filter(odd => odd.round === state.currentRound)
-                .reduce((sum, odd) => sum + odd.value, 0);
-        }
-        
         // Check if we've reached a signal condition
         function checkForSignal() {
             const currentRoundIndex = state.currentRound - 1;
-            const currentSum = calculateCurrentRoundSum();
-            const targetSum = secretFormula.targetSums[currentRoundIndex];
-            const maxSum = secretFormula.maxSums[currentRoundIndex];
+            const currentSum = state.roundSums[currentRoundIndex];
+            const targetSum = targetSums[currentRoundIndex];
+            const maxSum = maxSums[currentRoundIndex];
             
             // Check if we've exceeded the maximum without hitting the target
             if (currentSum > maxSum) {
@@ -972,6 +921,7 @@
                 );
             } else {
                 // All rounds failed
+                state.roundStatus[2] = 'failed';
                 showStatusMessage(
                     "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
                     "error"
@@ -986,7 +936,7 @@
         // Show signal modal with animation
         function showSignalModal() {
             const roundNames = ["පළමු", "දෙවන", "තෙවන"];
-            const currentSum = calculateCurrentRoundSum();
+            const currentSum = state.roundSums[state.currentRound-1];
             
             elements.modalTitle.textContent = `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
             elements.modalMessage.textContent = 
@@ -1015,11 +965,9 @@
         function handleFail() {
             closeModal(elements.signalModal);
             
-            // Mark current round as failed
-            state.roundStatus[state.currentRound-1] = 'failed';
-            
             if (state.currentRound < 3) {
-                // Move to next round
+                // Mark current round as failed and move to next
+                state.roundStatus[state.currentRound-1] = 'failed';
                 state.currentRound++;
                 state.roundStatus[state.currentRound-1] = 'active';
                 
@@ -1029,6 +977,7 @@
                 );
             } else {
                 // All rounds failed
+                state.roundStatus[2] = 'failed';
                 showStatusMessage(
                     "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
                     "error"
@@ -1067,6 +1016,7 @@
         function resetForNewRound() {
             state.currentRound = 1;
             state.allOdds = [];
+            state.roundSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             updateUI();
@@ -1077,6 +1027,7 @@
         function resetAll() {
             state.currentRound = 1;
             state.allOdds = [];
+            state.roundSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             showStatusMessage("පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න.", "info");
@@ -1099,20 +1050,23 @@
             // Validate input
             if (isNaN(newValue)) {
                 showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
-                elements.editOddValue.classList.add('bounce');
-                setTimeout(() => elements.editOddValue.classList.remove('bounce'), 1000);
                 return;
             }
             
             if (newValue < 1.00 || newValue > 2.99) {
                 showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
-                elements.editOddValue.classList.add('bounce');
-                setTimeout(() => elements.editOddValue.classList.remove('bounce'), 1000);
                 return;
             }
             
+            // Get the odd being edited
+            const oddToEdit = state.allOdds[elements.currentEditingIndex];
+            const roundIndex = oddToEdit.round - 1;
+            
+            // Update the sum for the round
+            state.roundSums[roundIndex] = state.roundSums[roundIndex] - oddToEdit.value + newValue;
+            
             // Update the odd value
-            state.allOdds[elements.currentEditingIndex].value = newValue;
+            oddToEdit.value = newValue;
             
             // Close the modal
             closeModal(elements.editModal);
@@ -1129,20 +1083,17 @@
         
         // Delete an odd value
         function deleteOdd(index) {
+            const oddToDelete = state.allOdds[index];
+            const roundIndex = oddToDelete.round - 1;
+            
+            // Update the sum for the round
+            state.roundSums[roundIndex] -= oddToDelete.value;
+            
             // Remove the odd
             state.allOdds.splice(index, 1);
             
-            // Update UI with animation
-            const item = document.querySelector(`.odds-item:nth-child(${index+2})`);
-            if (item) {
-                item.style.transform = 'translateX(100%)';
-                item.style.opacity = '0';
-                setTimeout(() => {
-                    updateUI();
-                }, 300);
-            } else {
-                updateUI();
-            }
+            // Update UI
+            updateUI();
             
             // Save state
             saveState();
@@ -1206,7 +1157,7 @@
             }
         }
         
-        // Show status message with animation
+        // Show status message
         function showStatusMessage(message, type) {
             elements.statusMessageEl.innerHTML = message;
             elements.statusMessageEl.className = 'alert';
@@ -1224,10 +1175,6 @@
                 default:
                     elements.statusMessageEl.classList.add('alert-info');
             }
-            
-            // Add bounce animation
-            elements.statusMessageEl.classList.add('bounce');
-            setTimeout(() => elements.statusMessageEl.classList.remove('bounce'), 1000);
         }
         
         // Save state to localStorage
