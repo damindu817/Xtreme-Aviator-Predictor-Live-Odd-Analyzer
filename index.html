@@ -1,380 +1,1114 @@
 <!DOCTYPE html>
 <html lang="si">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aviator Live 2× Odds Analyzer Predictor : 1xbet</title>
-  <style>
-    :root {
-      --bg-color: #ffffff;
-      --card-bg: #f9f9f9;
-      --text-color: #212121;
-      --accent-color: #7e57c2;
-      --danger-color: #e53935;
-      --enter-color: #43a047;
-      --cashout-color: #fb8c00;
-      --outline-color: #ccc;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 500px;
-      margin: 20px auto;
-      background-color: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid var(--outline-color);
-    }
-
-    .header, .datetime, .footer, .message-box {
-      text-align: center;
-      border-radius: 5px;
-      border: 1px solid var(--outline-color);
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-
-    .header h1 {
-      color: var(--danger-color);
-      margin: 0;
-    }
-
-    .message-box {
-      min-height: 60px;
-      font-weight: bold;
-      font-size: 1.1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid var(--outline-color);
-      background-color: #ffffff;
-      color: var(--text-color);
-      font-size: 1em;
-      box-sizing: border-box;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: var(--enter-color);
-      border: none;
-      color: white;
-      font-size: 1em;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    button.danger {
-      background-color: var(--danger-color);
-    }
-
-    button.clear {
-      background-color: #607d8b;
-    }
-
-    .footer {
-      font-size: 0.9em;
-      opacity: 0.6;
-    }
-
-    #editSection {
-      display: none;
-      border: 1px solid var(--outline-color);
-      padding: 10px;
-      border-radius: 5px;
-      background-color: #f1f8e9;
-      margin-bottom: 15px;
-    }
-
-    #editSection h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    #editOddList {
-      max-height: 200px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-
-    #stickyFooter {
-      position: sticky;
-      bottom: 0;
-      background-color: #f1f8e9;
-      padding-top: 10px;
-    }
-
-    .modal {
-      transition: opacity 0.3s ease;
-      opacity: 0;
-      pointer-events: none;
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .modal-content p {
-      margin-bottom: 20px;
-    }
-
-    .popup-buttons button {
-      width: 45%;
-      margin: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator 2× Odds Predictor | 1xBet Strategy Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #94a3b8;
+            --dark-gray: #64748b;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+            position: relative;
+            flex: 1;
+        }
+        
+        /* Header Section */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .app-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .app-header p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .logo {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Dashboard Section */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .dashboard-card h3 {
+            font-size: 0.75rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-card .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        /* Main Content */
+        .content {
+            padding: 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-title i {
+            font-size: 1.1rem;
+        }
+        
+        /* Input Section */
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray);
+            color: var(--dark);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--dark-gray);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        /* Odds List */
+        .odds-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .odds-list-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.75rem 1rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            font-size: 0.875rem;
+            position: sticky;
+            top: 0;
+        }
+        
+        .odds-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.2s;
+        }
+        
+        .odds-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .odds-item:last-child {
+            border-bottom: none;
+        }
+        
+        .odd-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+        
+        .odd-actions button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        /* Status Messages */
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .alert-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: modalFadeIn 0.3s ease-out;
+            margin-top: -50px;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 1.25rem;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .modal-body p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .modal-footer .btn {
+            flex: 1;
+        }
+        
+        /* Round Indicator */
+        .round-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .round-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e2e8f0;
+            z-index: 1;
+        }
+        
+        .round-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 30%;
+        }
+        
+        .round-bubble {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+            border: 2px solid white;
+        }
+        
+        .round-step.active .round-bubble {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .round-step.completed .round-bubble {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .round-step.failed .round-bubble {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .round-label {
+            font-size: 0.75rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+        
+        .round-step.active .round-label,
+        .round-step.completed .round-label,
+        .round-step.failed .round-label {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        /* Edit Modal */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .edit-modal-content {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .edit-input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .edit-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .edit-input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .edit-modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .edit-modal-buttons button {
+            flex: 1;
+        }
+        
+        /* Footer Styles */
+        .app-footer {
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.8rem;
+            margin-top: auto;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .app-footer p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .app-footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px;
+                padding: 1rem;
+            }
+            
+            .app-header h1 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Aviator Live 2× Odds Analyzer Predictor : 1xbet</h1>
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">2×</div>
+            <h1>Aviator Odds Analyzer</h1>
+            <p>1xBet Strategy Predictor Tool</p>
+        </header>
+        
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <h3>වත්මන් වටය</h3>
+                <div class="value" id="currentRound">1</div>
+            </div>
+            <div class="dashboard-card">
+                <h3>මුළු Odd ගණන</h3>
+                <div class="value" id="oddsCount">0</div>
+            </div>
+        </div>
+        
+        <!-- Round Indicator -->
+        <div class="card">
+            <div class="round-indicator">
+                <div class="round-step active" id="round1Step">
+                    <div class="round-bubble">1</div>
+                    <div class="round-label">පළමු වටය</div>
+                </div>
+                <div class="round-step" id="round2Step">
+                    <div class="round-bubble">2</div>
+                    <div class="round-label">දෙවන වටය</div>
+                </div>
+                <div class="round-step" id="round3Step">
+                    <div class="round-bubble">3</div>
+                    <div class="round-label">තෙවන වටය</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Status Message -->
+        <div id="statusMessage"></div>
+        
+        <!-- Input Section -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-plus-circle"></i> Odd ඇතුළත් කරන්න</h2>
+            <p style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--dark-gray);">
+                කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න
+            </p>
+            
+            <div class="input-group">
+                <input type="number" id="oddInput" step="0.01" min="1.00" max="2.99" placeholder="උදා: 1.75" inputmode="decimal">
+                <button class="btn btn-primary" id="addOddBtn">
+                    <i class="fas fa-plus"></i> එකතු කරන්න
+                </button>
+            </div>
+            
+            <div class="input-group" style="justify-content: space-between;">
+                <button class="btn btn-outline" id="resetBtn">
+                    <i class="fas fa-redo"></i> යළි පිහිටුවන්න
+                </button>
+                <button class="btn btn-outline" id="autoBtn" style="display: none;">
+                    <i class="fas fa-bolt"></i> Auto Bet
+                </button>
+            </div>
+        </div>
+        
+        <!-- Odds List -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-list-ol"></i> ඇතුළත් කළ Odd ලැයිස්තුව</h2>
+            <div class="odds-list" id="enteredOddsList">
+                <div class="odds-list-header">
+                    <span>වටය</span>
+                    <span>Odd අගය</span>
+                    <span>ක්‍රියා</span>
+                </div>
+                <div id="oddsListItems" style="text-align: center; padding: 1rem; color: var(--gray);">
+                    තවම odd අගයන් ඇතුළත් කර නැත
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-info-circle"></i> උපදෙස්</h2>
+            <div style="font-size: 0.875rem;">
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>1.</strong> +10× odd එකක් ලැබෙන තුරු බලාගෙන සිටින්න
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>2.</strong> ඊළඟ round එකේ සිට odd අගයන් (1.00× - 2.99×) ඇතුළත් කරන්න
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>3.</strong> පහත ඉලක්ක එකතුවන් අනුව සිග්නල් ලැබෙන තුරු අගයන් ඇතුළත් කරන්න:
+                </p>
+                <p style="margin-bottom: 0.75rem; color: var(--primary-dark); font-weight: 600;">
+                    <i class="fas fa-lock"></i> සූත්‍රය රහස්‍ය ලෙස තබා ඇත. සිග්නල් ලැබුණු විට පැමිණෙන පණිවිඩය අනුගමනය කරන්න
+                </p>
+                <p>
+                    <strong>4.</strong> සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න
+                </p>
+            </div>
+        </div>
     </div>
-
-    <div class="datetime" id="datetime"></div>
-
-    <div class="message-box" id="signalMessage">
-      ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.
+    
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2025 Aviator Analyzer | Developed for Educational Use Only</p>
+    </footer>
+    
+    <!-- Signal Modal -->
+    <div id="signalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">සිග්නල් හමුවී ඇත!</h3>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-bell pulse" style="font-size: 2.5rem; color: var(--warning); margin-bottom: 1rem;"></i>
+                <p id="modalMessage">පළමු සිග්නල් එක හමුවී ඇත. ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="successBtn">
+                    <i class="fas fa-check"></i> ජයග්‍රහණය
+                </button>
+                <button class="btn btn-danger" id="failBtn">
+                    <i class="fas fa-times"></i> පරාජය
+                </button>
+            </div>
+        </div>
     </div>
-
-    <div id="oddDisplay" class="message-box" style="background-color:#e3f2fd; color:#1565c0;">
-      කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.
+    
+    <!-- Final Modal -->
+    <div id="finalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: var(--danger);">
+                <h3>සියලු වට අසාර්ථකයි</h3>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                <p>සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="finalConfirmBtn" style="flex: none; width: 100%;">
+                    <i class="fas fa-redo"></i> තේරුම් ගතිමි
+                </button>
+            </div>
+        </div>
     </div>
-
-    <input type="number" id="oddInput" placeholder="ඔබේ odd අගය ඇතුළත් කරන්න (උදා: 1.85)" />
-    <button onclick="addOdd()">Add Odd</button>
-    <button class="clear" onclick="clearAllOdds()">Clear All</button>
-    <button onclick="toggleEditSection()">ODD බලන්න/සංස්කරණය කරන්න</button>
-
-    <div id="editSection">
-      <h3>ODD සංස්කරණය</h3>
-      <div id="editOddList"></div>
-      <div id="stickyFooter">
-        <button onclick="applyOddChanges()" style="background-color:#e53935;color:white;">යාවත්කාලීන කරන්න</button>
-      </div>
+    
+    <!-- Edit Modal -->
+    <div id="editModal" class="edit-modal">
+        <div class="edit-modal-content">
+            <h3 style="margin-bottom: 1.5rem; color: var(--primary-dark);"><i class="fas fa-edit"></i> Odd අගය සංස්කරණය කරන්න</h3>
+            <div class="edit-input-group">
+                <label for="editOddValue">නව Odd අගය (1.00× - 2.99×)</label>
+                <input type="number" id="editOddValue" step="0.01" min="1.00" max="2.99">
+            </div>
+            <div class="edit-modal-buttons">
+                <button class="btn btn-outline" id="cancelEditBtn">
+                    <i class="fas fa-times"></i> අවලංගු කරන්න
+                </button>
+                <button class="btn btn-primary" id="saveEditBtn">
+                    <i class="fas fa-save"></i> සුරකින්න
+                </button>
+            </div>
+        </div>
     </div>
-
-    <div class="footer">© 2025 Aviator Live System - All rights reserved</div>
-  </div>
-
-  <div id="popupModal" class="modal">
-    <div class="modal-content" id="popupContent">
-      <p id="popupText"><strong>2× Auto Bet ගන්න සහ ක්ෂණිකව ක්‍රීඩා කරන්න!</strong></p>
-      <div class="popup-buttons">
-        <button style="background-color: green;" onclick="handleResult(true)">ජය</button>
-        <button style="background-color: red;" onclick="handleResult(false)">පරාජය</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-  const oddValues = [];
-  let stage = 1;
-  let firstSignalShown = false;
-
-  function updateDateTime() {
-    const now = new Date();
-    const formatted = now.toLocaleString('si-LK');
-    document.getElementById('datetime').innerText = `Live Time: ${formatted}`;
-  }
-  setInterval(updateDateTime, 1000);
-  updateDateTime();
-
-  function getSum() {
-    return oddValues.reduce((a, b) => a + b, 0);
-  }
-
-  function updateOddDisplay() {
-    const displayDiv = document.getElementById('oddDisplay');
-    if (oddValues.length > 0) {
-      displayDiv.innerText = 'ඔබ ඇතුළත් කළ ODD අගයන්: ' + oddValues.join(', ');
-    } else {
-      displayDiv.innerText = 'කිසිඳු ODD අගයක් ඇතුළත් කර නොමැත.';
-    }
-  }
-
-  function addOdd() {
-    const input = document.getElementById('oddInput');
-    const value = parseFloat(input.value);
-    if (!isNaN(value) && value >= 1 && value < 3) {
-      oddValues.push(value);
-      input.value = '';
-      checkSignal();
-      updateOddDisplay();
-      if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
-    } else {
-      document.getElementById('signalMessage').innerText = 'කරුණාකර 1.00 සිට 2.99 අතර වලංගු ODD අගයක් ඇතුළත් කරන්න.';
-    }
-  }
-
-  function clearAllOdds() {
-    if (confirm("ඔබට සියළු ODD අගයන් ඉවත් කිරීමට අවශ්‍යද?")) {
-      oddValues.length = 0;
-      stage = 1;
-      firstSignalShown = false;
-      updateOddDisplay();
-      document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
-      if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
-    }
-  }
-
-  function checkSignal() {
-    const sum = getSum();
-    let message = "";
-    let showPopup = false;
-
-    if (stage === 1) {
-      if (!firstSignalShown) {
-        if (sum > 9.5 && sum <= 9.98) {
-          message = "පළමු වටය සඳහා 2× Auto Bet ක්ෂණිකව ක්‍රීඩා කරන්න!";
-          showPopup = true;
-          firstSignalShown = true;
-        } else if (sum > 9.98) {
-          document.getElementById('signalMessage').innerText =
-            "වට 1 සඳහා signal එකක් හමු නොවුණි. කරුණාකර ODD අගයන් ඇතුළත් කරමින් ඉදිරියට යන්න.";
-          firstSignalShown = true;
+    
+    <script>
+        // Game State
+        const state = {
+            currentRound: 1,
+            allOdds: [], // Stores all odds with round information
+            roundSums: [0, 0, 0],
+            roundStatus: ['active', 'pending', 'pending'] // active, completed, failed, pending
+        };
+        
+        // Secret formula values
+        const secretFormula = {
+            targetSums: [9.10, 12.05, 29.00],
+            maxSums: [9.98, 12.98, 29.99]
+        };
+        
+        // DOM Elements
+        const elements = {
+            oddInput: document.getElementById('oddInput'),
+            addOddBtn: document.getElementById('addOddBtn'),
+            resetBtn: document.getElementById('resetBtn'),
+            autoBtn: document.getElementById('autoBtn'),
+            currentRoundEl: document.getElementById('currentRound'),
+            oddsCountEl: document.getElementById('oddsCount'),
+            enteredOddsListEl: document.getElementById('oddsListItems'),
+            statusMessageEl: document.getElementById('statusMessage'),
+            signalModal: document.getElementById('signalModal'),
+            finalModal: document.getElementById('finalModal'),
+            modalTitle: document.getElementById('modalTitle'),
+            modalMessage: document.getElementById('modalMessage'),
+            successBtn: document.getElementById('successBtn'),
+            failBtn: document.getElementById('failBtn'),
+            finalConfirmBtn: document.getElementById('finalConfirmBtn'),
+            editModal: document.getElementById('editModal'),
+            editOddValue: document.getElementById('editOddValue'),
+            cancelEditBtn: document.getElementById('cancelEditBtn'),
+            saveEditBtn: document.getElementById('saveEditBtn'),
+            roundSteps: {
+                1: document.getElementById('round1Step'),
+                2: document.getElementById('round2Step'),
+                3: document.getElementById('round3Step')
+            },
+            currentEditingIndex: null
+        };
+        
+        // Initialize the application
+        function init() {
+            // Load saved state if exists
+            loadState();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update UI with initial state
+            updateUI();
         }
-      }
-    } else if (stage === 2 && sum >= 12.05 && sum <= 12.98) {
-      message = "දෙවැනි වටය සඳහා ක්ෂණිකව ක්‍රීඩා කරන්න!";
-      showPopup = true;
-    } else if (stage === 3 && sum >= 29.0 && sum <= 29.98) {
-      message = "අවසන් වටය! දැන් ක්‍රියාත්මක කරන්න!";
-      showPopup = true;
-    } else if ((stage === 2 && sum > 12.98)) {
-      document.getElementById('signalMessage').innerText =
-        `වට ${stage} සඳහා signal එකක් හමු නොවුණි.`;
-    }
-
-    if (showPopup) {
-      document.getElementById("popupText").innerText = message;
-      const modal = document.getElementById("popupModal");
-      modal.style.display = "block";
-      setTimeout(() => {
-        modal.style.opacity = "1";
-        modal.style.pointerEvents = "auto";
-      }, 10);
-    }
-  }
-
-  function handleResult(won) {
-    const modal = document.getElementById("popupModal");
-    modal.style.opacity = "0";
-    modal.style.pointerEvents = "none";
-    setTimeout(() => { modal.style.display = "none"; }, 300);
-
-    if (!won) {
-      stage++;
-      firstSignalShown = false;
-      if (stage > 3) {
-        showCustomMessage("කණගාටුයි! සියලුම වටයන් අසාර්ථකයි. ඔබගේ දත්ත රීසෙට් කර ඇත. නැවත උත්සාහ කරන්න.");
-        oddValues.length = 0;
-        stage = 1;
-      } else {
-        showCustomMessage(`ඔබ පරාජය වූවා! දැන් වටය ${stage} වෙත ගමන් කරන්න.`);
-      }
-    } else {
-      showCustomMessage("ඔබ ජයග්‍රහණයක් අත්කර ගත්තා!");
-      oddValues.length = 0;
-      stage = 1;
-    }
-
-    updateOddDisplay();
-    firstSignalShown = false;
-    document.getElementById('signalMessage').innerText = 'ඔබගේ ODD අගයන් ඇතුළත් කිරීමෙන් පසු, ක්‍රීඩා සඳහා උපදෙස් මෙහි පෙන්වනු ඇත.';
-    if (document.getElementById("editSection").style.display === "block") refreshEditOddList();
-  }
-
-  function toggleEditSection() {
-    const section = document.getElementById('editSection');
-    if (section.style.display === 'none') {
-      section.style.display = 'block';
-      refreshEditOddList();
-    } else {
-      section.style.display = 'none';
-    }
-  }
-
-  function refreshEditOddList() {
-    const list = document.getElementById("editOddList");
-    list.innerHTML = "";
-    oddValues.forEach((val, i) => {
-      list.innerHTML += `<div style="margin-bottom:5px;">
-        <input type="number" min="1" max="2.99" step="0.01" value="${val}" id="odd_edit_${i}" style="width: 60px; margin-right: 10px;" />
-        <span style="opacity: 0.7;">#${i + 1}</span>
-      </div>`;
-    });
-  }
-
-  function applyOddChanges() {
-    const newValues = [];
-    for (let i = 0; i < oddValues.length; i++) {
-      const val = parseFloat(document.getElementById(`odd_edit_${i}`).value);
-      if (!isNaN(val) && val >= 1 && val < 3) {
-        newValues.push(val);
-      }
-    }
-    updateOddValues(newValues);
-    showCustomMessage("ODD අගයන් යාවත්කාලීන කර ඇත!");
-  }
-
-  function updateOddValues(newList) {
-    oddValues.length = 0;
-    oddValues.push(...newList);
-    firstSignalShown = false;
-    checkSignal();
-    updateOddDisplay();
-  }
-
-  function showCustomMessage(text) {
-    document.getElementById("popupText").innerText = text;
-    const modal = document.getElementById("popupModal");
-    modal.style.display = "block";
-    setTimeout(() => {
-      modal.style.opacity = "1";
-      modal.style.pointerEvents = "auto";
-    }, 10);
-  }
-
-  function closeModal() {
-    const modal = document.getElementById("popupModal");
-    modal.style.opacity = "0";
-    modal.style.pointerEvents = "none";
-    setTimeout(() => { modal.style.display = "none"; }, 300);
-  }
-</script>
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Add odd button
+            elements.addOddBtn.addEventListener('click', addOdd);
+            
+            // Enter key in input field
+            elements.oddInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addOdd();
+                }
+            });
+            
+            // Reset button
+            elements.resetBtn.addEventListener('click', resetAll);
+            
+            // Modal buttons
+            elements.successBtn.addEventListener('click', handleSuccess);
+            elements.failBtn.addEventListener('click', handleFail);
+            elements.finalConfirmBtn.addEventListener('click', () => {
+                elements.finalModal.style.display = 'none';
+                resetAll();
+            });
+            
+            // Edit modal buttons
+            elements.cancelEditBtn.addEventListener('click', () => {
+                elements.editModal.style.display = 'none';
+            });
+            
+            elements.saveEditBtn.addEventListener('click', saveEditedOdd);
+        }
+        
+        // Add a new odd value
+        function addOdd() {
+            const oddValue = parseFloat(elements.oddInput.value);
+            
+            // Validate input
+            if (isNaN(oddValue)) {
+                showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                return;
+            }
+            
+            if (oddValue < 1.00 || oddValue > 2.99) {
+                showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                return;
+            }
+            
+            // Add to current round
+            state.allOdds.push({
+                value: oddValue,
+                round: state.currentRound
+            });
+            
+            state.roundSums[state.currentRound-1] += oddValue;
+            
+            // Check for signal
+            checkForSignal();
+            
+            // Update UI
+            updateUI();
+            
+            // Clear input
+            elements.oddInput.value = '';
+            elements.oddInput.focus();
+            
+            // Save state
+            saveState();
+        }
+        
+        // Check if we've reached a signal condition
+        function checkForSignal() {
+            const currentRoundIndex = state.currentRound - 1;
+            const currentSum = state.roundSums[currentRoundIndex];
+            const targetSum = secretFormula.targetSums[currentRoundIndex];
+            const maxSum = secretFormula.maxSums[currentRoundIndex];
+            
+            // Check if we've exceeded the maximum without hitting the target
+            if (currentSum > maxSum) {
+                handleRoundFailure();
+                return;
+            }
+            
+            // Check if we're in the target range
+            if (currentSum >= targetSum && currentSum <= maxSum) {
+                showSignalModal();
+            }
+        }
+        
+        // Handle round failure
+        function handleRoundFailure() {
+            const roundNames = ["පළමු", "දෙවන", "තෙවන"];
+            
+            if (state.currentRound < 3) {
+                // Mark current round as failed
+                state.roundStatus[state.currentRound-1] = 'failed';
+                state.currentRound++;
+                state.roundStatus[state.currentRound-1] = 'active';
+                
+                showStatusMessage(
+                    `${roundNames[state.currentRound-2]} වටයේ සිග්නල් එකක් හඳුනා ගැනීමට නොහැකි විය. ඊළඟ වටයට යන්න.`, 
+                    "warning"
+                );
+            } else {
+                // All rounds failed
+                state.roundStatus[2] = 'failed';
+                showStatusMessage(
+                    "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
+                    "error"
+                );
+                showFinalModal();
+            }
+            
+            updateUI();
+            saveState();
+        }
+        
+        // Show signal modal
+        function showSignalModal() {
+            const roundNames = ["පළමු", "දෙවන", "තෙවන"];
+            const currentSum = state.roundSums[state.currentRound-1];
+            
+            elements.modalTitle.textContent = `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
+            elements.modalMessage.textContent = 
+                `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත. ` +
+                `ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.`;
+            
+            elements.signalModal.style.display = 'flex';
+        }
+        
+        // Handle success (player won)
+        function handleSuccess() {
+            elements.signalModal.style.display = 'none';
+            
+            // Mark current round as completed
+            state.roundStatus[state.currentRound-1] = 'completed';
+            
+            showStatusMessage(
+                "සුභ පැතුම්! ඔබ ජයග්‍රහණය කළා. නව වටයක් ආරම්භ කරන්න.", 
+                "success"
+            );
+            
+            resetForNewRound();
+        }
+        
+        // Handle fail (player lost)
+        function handleFail() {
+            elements.signalModal.style.display = 'none';
+            
+            if (state.currentRound < 3) {
+                // Mark current round as failed and move to next
+                state.roundStatus[state.currentRound-1] = 'failed';
+                state.currentRound++;
+                state.roundStatus[state.currentRound-1] = 'active';
+                
+                showStatusMessage(
+                    `වටය ${state.currentRound-1} පරාජය විය. ඊළඟ වටයට යන්න.`, 
+                    "warning"
+                );
+            } else {
+                // All rounds failed
+                state.roundStatus[2] = 'failed';
+                showStatusMessage(
+                    "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
+                    "error"
+                );
+                showFinalModal();
+            }
+            
+            updateUI();
+            saveState();
+        }
+        
+        // Show final modal when all rounds fail
+        function showFinalModal() {
+            elements.finalModal.style.display = 'flex';
+        }
+        
+        // Reset for a new round after success
+        function resetForNewRound() {
+            state.currentRound = 1;
+            state.allOdds = [];
+            state.roundSums = [0, 0, 0];
+            state.roundStatus = ['active', 'pending', 'pending'];
+            
+            updateUI();
+            saveState();
+        }
+        
+        // Reset everything
+        function resetAll() {
+            state.currentRound = 1;
+            state.allOdds = [];
+            state.roundSums = [0, 0, 0];
+            state.roundStatus = ['active', 'pending', 'pending'];
+            
+            showStatusMessage("පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න.", "info");
+            
+            updateUI();
+            saveState();
+        }
+        
+        // Edit an odd value
+        function editOdd(index) {
+            elements.currentEditingIndex = index;
+            elements.editOddValue.value = state.allOdds[index].value;
+            elements.editModal.style.display = 'flex';
+        }
+        
+        // Save edited odd value
+        function saveEditedOdd() {
+            const newValue = parseFloat(elements.editOddValue.value);
+            
+            // Validate input
+            if (isNaN(newValue)) {
+                showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                return;
+            }
+            
+            if (newValue < 1.00 || newValue > 2.99) {
+                showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                return;
+            }
+            
+            // Get the odd being edited
+            const oddToEdit = state.allOdds[elements.currentEditingIndex];
+            const roundIndex = oddToEdit.round - 1;
+            
+            // Update the sum for the round
+            state.roundSums[roundIndex] = state.roundSums[roundIndex] - oddToEdit.value + newValue;
+            
+            // Update the odd value
+            oddToEdit.value = newValue;
+            
+            // Close the modal
+            elements.editModal.style.display = 'none';
+            
+            // Update UI
+            updateUI();
+            
+            // Save state
+            saveState();
+            
+            // Re-check for signals in case the edit affected the sum
+            checkForSignal();
+        }
+        
+        // Delete an odd value
+        function deleteOdd(index) {
+            const oddToDelete = state.allOdds[index];
+            const roundIndex = oddToDelete.round - 1;
+            
+            // Update the sum for the round
+            state.roundSums[roundIndex] -= oddToDelete.value;
+            
+            // Remove the odd
+            state.allOdds.splice(index, 1);
+            
+            // Update UI
+            updateUI();
+            
+            // Save state
+            saveState();
+            
+            // Re-check for signals in case the deletion affected the sum
+            checkForSignal();
+        }
+        
+        // Update the UI
+        function updateUI() {
+            // Update dashboard
+            elements.currentRoundEl.textContent = state.currentRound;
+            elements.oddsCountEl.textContent = state.allOdds.length;
+            
+            // Update round steps
+            for (let i = 1; i <= 3; i++) {
+                const step = elements.roundSteps[i];
+                step.className = 'round-step';
+                
+                if (state.roundStatus[i-1] === 'active') {
+                    step.classList.add('active');
+                } else if (state.roundStatus[i-1] === 'completed') {
+                    step.classList.add('completed');
+                } else if (state.roundStatus[i-1] === 'failed') {
+                    step.classList.add('failed');
+                }
+            }
+            
+            // Update odds list
+            if (state.allOdds.length > 0) {
+                let html = '';
+                state.allOdds.forEach((odd, index) => {
+                    html += `
+                        <div class="odds-item">
+                            <span>${odd.round} වටය</span>
+                            <span>${odd.value.toFixed(2)}×</span>
+                            <div class="odd-actions">
+                                <button class="edit-btn" onclick="editOdd(${index})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="delete-btn" onclick="deleteOdd(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                elements.enteredOddsListEl.innerHTML = html;
+            } else {
+                elements.enteredOddsListEl.innerHTML = 'තවම odd අගයන් ඇතුළත් කර නැත';
+                elements.enteredOddsListEl.style.textAlign = 'center';
+                elements.enteredOddsListEl.style.padding = '1rem';
+                elements.enteredOddsListEl.style.color = 'var(--gray)';
+            }
+        }
+        
+        // Show status message
+        function showStatusMessage(message, type) {
+            elements.statusMessageEl.innerHTML = message;
+            elements.statusMessageEl.className = 'alert';
+            
+            switch (type) {
+                case 'error':
+                    elements.statusMessageEl.classList.add('alert-danger');
+                    break;
+                case 'warning':
+                    elements.statusMessageEl.classList.add('alert-warning');
+                    break;
+                case 'success':
+                    elements.statusMessageEl.classList.add('alert-success');
+                    break;
+                default:
+                    elements.statusMessageEl.classList.add('alert-info');
+            }
+        }
+        
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('aviatorPredictorState', JSON.stringify(state));
+        }
+        
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('aviatorPredictorState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                Object.assign(state, parsedState);
+                
+                // Show reload message
+                showStatusMessage("පෙර සැසියේ දත්ත ප්‍රතිෂ්ඨාපනය කර ඇත. ඉදිරියට යාමට යළි පිහිටුවන්න බොත්තම ඔබන්න.", "info");
+            }
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Make functions available globally for inline event handlers
+        window.editOdd = editOdd;
+        window.deleteOdd = deleteOdd;
+    </script>
 </body>
 </html>
