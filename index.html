@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator 2× Odds Predictor | 1xBet Strategy Tool</title>
+    <title>Aviator Live 2× Odds Analyzer Predictor | 1xBet Strategy Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -32,6 +32,13 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .container {
@@ -46,11 +53,18 @@
         .app-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 1.5rem;
+            padding: 1.8rem 1.5rem 1.2rem; /* Adjusted padding to move text down */
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
             border-radius: 0 0 12px 12px;
+            transform: translateY(-20px);
+            animation: slideDown 0.4s ease-out forwards;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(0); }
         }
         
         .app-header h1 {
@@ -79,6 +93,7 @@
             color: var(--primary);
             font-weight: bold;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
         }
         
         /* Dashboard Section */
@@ -88,6 +103,13 @@
             gap: 1rem;
             padding: 1rem;
             margin-top: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.2s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .dashboard-card {
@@ -96,6 +118,12 @@
             padding: 1rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .dashboard-card h3 {
@@ -115,6 +143,8 @@
         /* Main Content */
         .content {
             padding: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.3s forwards;
         }
         
         .card {
@@ -123,6 +153,12 @@
             padding: 1.25rem;
             margin-bottom: 1rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .card-title {
@@ -152,13 +188,13 @@
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
         }
         
         .input-group input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
         
         .btn {
@@ -167,7 +203,7 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -181,6 +217,8 @@
         
         .btn-primary:hover {
             background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .btn-outline {
@@ -191,6 +229,8 @@
         
         .btn-outline:hover {
             border-color: var(--dark-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .btn-danger {
@@ -200,6 +240,8 @@
         
         .btn-danger:hover {
             background-color: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         /* Odds List */
@@ -209,6 +251,11 @@
             margin-top: 1rem;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .odds-list:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .odds-list-header {
@@ -228,11 +275,12 @@
             grid-template-columns: 1fr 1fr 1fr;
             padding: 0.75rem 1rem;
             border-bottom: 1px solid #e2e8f0;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
         }
         
         .odds-item:hover {
             background-color: #f8fafc;
+            transform: translateX(5px);
         }
         
         .odds-item:last-child {
@@ -251,6 +299,11 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .odd-actions button:hover {
+            transform: scale(1.1);
         }
         
         .edit-btn {
@@ -269,6 +322,9 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             font-size: 0.875rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.4s ease-out forwards;
         }
         
         .alert-info {
@@ -304,6 +360,8 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-out forwards;
         }
         
         .modal-content {
@@ -312,19 +370,19 @@
             width: 100%;
             max-width: 400px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            animation: modalFadeIn 0.3s ease-out;
-            margin-top: -50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            animation: modalFadeIn 0.3s ease-out forwards;
         }
         
         @keyframes modalFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-20px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
         
@@ -366,6 +424,8 @@
             justify-content: space-between;
             margin-bottom: 1.5rem;
             position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.4s forwards;
         }
         
         .round-indicator::before {
@@ -384,6 +444,11 @@
             z-index: 2;
             text-align: center;
             width: 30%;
+            transition: all 0.3s ease;
+        }
+        
+        .round-step:hover {
+            transform: translateY(-3px);
         }
         
         .round-bubble {
@@ -398,27 +463,32 @@
             margin: 0 auto 0.5rem;
             font-weight: 600;
             border: 2px solid white;
+            transition: all 0.3s ease;
         }
         
         .round-step.active .round-bubble {
             background-color: var(--primary);
             color: white;
+            transform: scale(1.1);
         }
         
         .round-step.completed .round-bubble {
             background-color: var(--success);
             color: white;
+            transform: scale(1.1);
         }
         
         .round-step.failed .round-bubble {
             background-color: var(--danger);
             color: white;
+            transform: scale(1.1);
         }
         
         .round-label {
             font-size: 0.75rem;
             color: var(--dark-gray);
             font-weight: 500;
+            transition: all 0.3s ease;
         }
         
         .round-step.active .round-label,
@@ -441,6 +511,8 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-out forwards;
         }
         
         .edit-modal-content {
@@ -450,6 +522,8 @@
             width: 100%;
             max-width: 400px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: scale(0.9);
+            animation: modalFadeIn 0.3s ease-out forwards;
         }
         
         .edit-input-group {
@@ -468,6 +542,13 @@
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
         }
         
         .edit-modal-buttons {
@@ -488,6 +569,8 @@
             font-size: 0.8rem;
             margin-top: auto;
             border-radius: 12px 12px 0 0;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.5s forwards;
         }
         
         .app-footer p {
@@ -499,10 +582,12 @@
             color: white;
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.2s;
         }
         
         .app-footer a:hover {
             text-decoration: underline;
+            opacity: 1;
         }
         
         /* Responsive Adjustments */
@@ -517,7 +602,7 @@
             }
         }
         
-        /* Animation */
+        /* Animations */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -526,6 +611,31 @@
         
         .pulse {
             animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .bounce {
+            animation: bounce 1s;
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -621,10 +731,7 @@
                     <strong>2.</strong> ඊළඟ round එකේ සිට odd අගයන් (1.00× - 2.99×) ඇතුළත් කරන්න
                 </p>
                 <p style="margin-bottom: 0.75rem;">
-                    <strong>3.</strong> පහත ඉලක්ක එකතුවන් අනුව සිග්නල් ලැබෙන තුරු අගයන් ඇතුළත් කරන්න:
-                </p>
-                <p style="margin-bottom: 0.75rem; color: var(--primary-dark); font-weight: 600;">
-                    <i class="fas fa-lock"></i> සූත්‍රය රහස්‍ය ලෙස තබා ඇත. සිග්නල් ලැබුණු විට පැමිණෙන පණිවිඩය අනුගමනය කරන්න
+                    <strong>3.</strong> පහත ඉලක්ක එකතුවන් අනුව සිග්නල් ලැබෙන තුරු අගයන් ඇතුළත් කරන්න
                 </p>
                 <p>
                     <strong>4.</strong> සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න
@@ -666,7 +773,7 @@
                 <h3>සියලු වට අසාර්ථකයි</h3>
             </div>
             <div class="modal-body">
-                <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                <i class="fas fa-exclamation-triangle pulse" style="font-size: 2.5rem; color: var(--danger); margin-bottom: 1rem;"></i>
                 <p>සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.</p>
             </div>
             <div class="modal-footer">
@@ -701,14 +808,13 @@
         const state = {
             currentRound: 1,
             allOdds: [], // Stores all odds with round information
-            roundSums: [0, 0, 0],
             roundStatus: ['active', 'pending', 'pending'] // active, completed, failed, pending
         };
         
         // Secret formula values
         const secretFormula = {
-            targetSums: [9.10, 12.05, 29.00],
-            maxSums: [9.98, 12.98, 29.99]
+            targetSums: [9.10, 12.05, 29.00],  // Target sums for each round
+            maxSums: [9.98, 12.98, 29.99]      // Maximum sums for each round
         };
         
         // DOM Elements
@@ -771,13 +877,13 @@
             elements.successBtn.addEventListener('click', handleSuccess);
             elements.failBtn.addEventListener('click', handleFail);
             elements.finalConfirmBtn.addEventListener('click', () => {
-                elements.finalModal.style.display = 'none';
+                closeModal(elements.finalModal);
                 resetAll();
             });
             
             // Edit modal buttons
             elements.cancelEditBtn.addEventListener('click', () => {
-                elements.editModal.style.display = 'none';
+                closeModal(elements.editModal);
             });
             
             elements.saveEditBtn.addEventListener('click', saveEditedOdd);
@@ -790,11 +896,15 @@
             // Validate input
             if (isNaN(oddValue)) {
                 showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                elements.oddInput.classList.add('bounce');
+                setTimeout(() => elements.oddInput.classList.remove('bounce'), 1000);
                 return;
             }
             
             if (oddValue < 1.00 || oddValue > 2.99) {
                 showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                elements.oddInput.classList.add('bounce');
+                setTimeout(() => elements.oddInput.classList.remove('bounce'), 1000);
                 return;
             }
             
@@ -803,8 +913,6 @@
                 value: oddValue,
                 round: state.currentRound
             });
-            
-            state.roundSums[state.currentRound-1] += oddValue;
             
             // Check for signal
             checkForSignal();
@@ -820,10 +928,17 @@
             saveState();
         }
         
+        // Calculate sum only for current round's odds
+        function calculateCurrentRoundSum() {
+            return state.allOdds
+                .filter(odd => odd.round === state.currentRound)
+                .reduce((sum, odd) => sum + odd.value, 0);
+        }
+        
         // Check if we've reached a signal condition
         function checkForSignal() {
             const currentRoundIndex = state.currentRound - 1;
-            const currentSum = state.roundSums[currentRoundIndex];
+            const currentSum = calculateCurrentRoundSum();
             const targetSum = secretFormula.targetSums[currentRoundIndex];
             const maxSum = secretFormula.maxSums[currentRoundIndex];
             
@@ -843,9 +958,11 @@
         function handleRoundFailure() {
             const roundNames = ["පළමු", "දෙවන", "තෙවන"];
             
+            // Mark current round as failed
+            state.roundStatus[state.currentRound-1] = 'failed';
+            
             if (state.currentRound < 3) {
-                // Mark current round as failed
-                state.roundStatus[state.currentRound-1] = 'failed';
+                // Move to next round
                 state.currentRound++;
                 state.roundStatus[state.currentRound-1] = 'active';
                 
@@ -855,7 +972,6 @@
                 );
             } else {
                 // All rounds failed
-                state.roundStatus[2] = 'failed';
                 showStatusMessage(
                     "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
                     "error"
@@ -867,22 +983,22 @@
             saveState();
         }
         
-        // Show signal modal
+        // Show signal modal with animation
         function showSignalModal() {
             const roundNames = ["පළමු", "දෙවන", "තෙවන"];
-            const currentSum = state.roundSums[state.currentRound-1];
+            const currentSum = calculateCurrentRoundSum();
             
             elements.modalTitle.textContent = `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
             elements.modalMessage.textContent = 
                 `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත. ` +
                 `ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.`;
             
-            elements.signalModal.style.display = 'flex';
+            openModal(elements.signalModal);
         }
         
         // Handle success (player won)
         function handleSuccess() {
-            elements.signalModal.style.display = 'none';
+            closeModal(elements.signalModal);
             
             // Mark current round as completed
             state.roundStatus[state.currentRound-1] = 'completed';
@@ -897,11 +1013,13 @@
         
         // Handle fail (player lost)
         function handleFail() {
-            elements.signalModal.style.display = 'none';
+            closeModal(elements.signalModal);
+            
+            // Mark current round as failed
+            state.roundStatus[state.currentRound-1] = 'failed';
             
             if (state.currentRound < 3) {
-                // Mark current round as failed and move to next
-                state.roundStatus[state.currentRound-1] = 'failed';
+                // Move to next round
                 state.currentRound++;
                 state.roundStatus[state.currentRound-1] = 'active';
                 
@@ -911,7 +1029,6 @@
                 );
             } else {
                 // All rounds failed
-                state.roundStatus[2] = 'failed';
                 showStatusMessage(
                     "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
                     "error"
@@ -925,14 +1042,31 @@
         
         // Show final modal when all rounds fail
         function showFinalModal() {
-            elements.finalModal.style.display = 'flex';
+            openModal(elements.finalModal);
+        }
+        
+        // Open modal with animation
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modal.querySelector('.modal-content, .edit-modal-content').style.transform = 'translateY(0) scale(1)';
+            }, 10);
+        }
+        
+        // Close modal with animation
+        function closeModal(modal) {
+            modal.querySelector('.modal-content, .edit-modal-content').style.transform = 'translateY(-20px) scale(0.95)';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
         }
         
         // Reset for a new round after success
         function resetForNewRound() {
             state.currentRound = 1;
             state.allOdds = [];
-            state.roundSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             updateUI();
@@ -943,7 +1077,6 @@
         function resetAll() {
             state.currentRound = 1;
             state.allOdds = [];
-            state.roundSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
             showStatusMessage("පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න.", "info");
@@ -956,7 +1089,7 @@
         function editOdd(index) {
             elements.currentEditingIndex = index;
             elements.editOddValue.value = state.allOdds[index].value;
-            elements.editModal.style.display = 'flex';
+            openModal(elements.editModal);
         }
         
         // Save edited odd value
@@ -966,26 +1099,23 @@
             // Validate input
             if (isNaN(newValue)) {
                 showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                elements.editOddValue.classList.add('bounce');
+                setTimeout(() => elements.editOddValue.classList.remove('bounce'), 1000);
                 return;
             }
             
             if (newValue < 1.00 || newValue > 2.99) {
                 showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                elements.editOddValue.classList.add('bounce');
+                setTimeout(() => elements.editOddValue.classList.remove('bounce'), 1000);
                 return;
             }
             
-            // Get the odd being edited
-            const oddToEdit = state.allOdds[elements.currentEditingIndex];
-            const roundIndex = oddToEdit.round - 1;
-            
-            // Update the sum for the round
-            state.roundSums[roundIndex] = state.roundSums[roundIndex] - oddToEdit.value + newValue;
-            
             // Update the odd value
-            oddToEdit.value = newValue;
+            state.allOdds[elements.currentEditingIndex].value = newValue;
             
             // Close the modal
-            elements.editModal.style.display = 'none';
+            closeModal(elements.editModal);
             
             // Update UI
             updateUI();
@@ -999,17 +1129,20 @@
         
         // Delete an odd value
         function deleteOdd(index) {
-            const oddToDelete = state.allOdds[index];
-            const roundIndex = oddToDelete.round - 1;
-            
-            // Update the sum for the round
-            state.roundSums[roundIndex] -= oddToDelete.value;
-            
             // Remove the odd
             state.allOdds.splice(index, 1);
             
-            // Update UI
-            updateUI();
+            // Update UI with animation
+            const item = document.querySelector(`.odds-item:nth-child(${index+2})`);
+            if (item) {
+                item.style.transform = 'translateX(100%)';
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    updateUI();
+                }, 300);
+            } else {
+                updateUI();
+            }
             
             // Save state
             saveState();
@@ -1023,6 +1156,10 @@
             // Update dashboard
             elements.currentRoundEl.textContent = state.currentRound;
             elements.oddsCountEl.textContent = state.allOdds.length;
+            
+            // Add pulse animation to current round value
+            elements.currentRoundEl.classList.add('pulse');
+            setTimeout(() => elements.currentRoundEl.classList.remove('pulse'), 1000);
             
             // Update round steps
             for (let i = 1; i <= 3; i++) {
@@ -1058,6 +1195,9 @@
                     `;
                 });
                 elements.enteredOddsListEl.innerHTML = html;
+                elements.enteredOddsListEl.style.textAlign = 'left';
+                elements.enteredOddsListEl.style.padding = '0';
+                elements.enteredOddsListEl.style.color = 'inherit';
             } else {
                 elements.enteredOddsListEl.innerHTML = 'තවම odd අගයන් ඇතුළත් කර නැත';
                 elements.enteredOddsListEl.style.textAlign = 'center';
@@ -1066,7 +1206,7 @@
             }
         }
         
-        // Show status message
+        // Show status message with animation
         function showStatusMessage(message, type) {
             elements.statusMessageEl.innerHTML = message;
             elements.statusMessageEl.className = 'alert';
@@ -1084,6 +1224,10 @@
                 default:
                     elements.statusMessageEl.classList.add('alert-info');
             }
+            
+            // Add bounce animation
+            elements.statusMessageEl.classList.add('bounce');
+            setTimeout(() => elements.statusMessageEl.classList.remove('bounce'), 1000);
         }
         
         // Save state to localStorage
