@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -62,6 +62,30 @@
             padding-bottom: 60px;
         }
         
+        /* Language Toggle */
+        .language-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+        }
+        
+        .lang-btn {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            background: var(--secondary);
+            color: var(--primary-dark);
+        }
+        
         /* Header Section */
         .app-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -104,7 +128,7 @@
             color: var(--primary-dark);
             font-weight: bold;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite;
+            animation: pulse 1.5s infinite;
             margin: 0 auto 0.5rem;
         }
         
@@ -665,6 +689,13 @@
             }
         }
         
+        /* Language-specific styles */
+        .lang-en { display: block; }
+        .lang-si { display: none; }
+        
+        body.si .lang-en { display: none; }
+        body.si .lang-si { display: block; }
+        
         /* Disable text selection */
         .no-select {
             -webkit-user-select: none;
@@ -684,23 +715,31 @@
         }
     </style>
 </head>
-<body>
-    <div class="container no-select">
+<body class="no-select">
+    <div class="language-toggle">
+        <button class="lang-btn" id="langToggle">සිංහල</button>
+    </div>
+    
+    <div class="container">
         <!-- Header -->
         <header class="app-header">
             <div class="logo">2×</div>
-            <h1>LIVE 2× ODDS ANALYZER</h1>
-            <p>Professional Aviator Prediction Tool</p>
+            <h1 class="lang-en">LIVE 2× ODDS ANALYZER</h1>
+            <h1 class="lang-si">LIVE 2× ඔඩ්ස් විශ්ලේෂකය</h1>
+            <p class="lang-en">Professional Aviator Prediction Tool</p>
+            <p class="lang-si">වෘත්තීය ඒවියේටර් පුරෝකථන මෙවලම</p>
         </header>
         
         <!-- Dashboard -->
         <div class="dashboard">
             <div class="dashboard-card">
-                <h3>වත්මන් වටය</h3>
+                <h3 class="lang-en">CURRENT ROUND</h3>
+                <h3 class="lang-si">වත්මන් වටය</h3>
                 <div class="value" id="currentRound">1</div>
             </div>
             <div class="dashboard-card">
-                <h3>මුළු Odd ගණන</h3>
+                <h3 class="lang-en">TOTAL ODDS</h3>
+                <h3 class="lang-si">මුළු Odd ගණන</h3>
                 <div class="value" id="oddsCount">0</div>
             </div>
         </div>
@@ -710,15 +749,18 @@
             <div class="round-indicator">
                 <div class="round-step active" id="round1Step">
                     <div class="round-bubble">1</div>
-                    <div class="round-label">පළමු වටය</div>
+                    <div class="round-label lang-en">ROUND 1</div>
+                    <div class="round-label lang-si">පළමු වටය</div>
                 </div>
                 <div class="round-step" id="round2Step">
                     <div class="round-bubble">2</div>
-                    <div class="round-label">දෙවන වටය</div>
+                    <div class="round-label lang-en">ROUND 2</div>
+                    <div class="round-label lang-si">දෙවන වටය</div>
                 </div>
                 <div class="round-step" id="round3Step">
                     <div class="round-bubble">3</div>
-                    <div class="round-label">තෙවන වටය</div>
+                    <div class="round-label lang-en">ROUND 3</div>
+                    <div class="round-label lang-si">තෙවන වටය</div>
                 </div>
             </div>
         </div>
@@ -728,52 +770,57 @@
         
         <!-- Input Section -->
         <div class="card">
-            <h2 class="card-title"><i class="fas fa-plus-circle"></i> Odd ඇතුළත් කරන්න</h2>
+            <h2 class="card-title"><i class="fas fa-plus-circle"></i> <span class="lang-en">ENTER ODD VALUE</span><span class="lang-si">Odd ඇතුළත් කරන්න</span></h2>
             <p style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--gray);">
-                කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න
+                <span class="lang-en">Please enter a value between 1.00× and 2.99×</span>
+                <span class="lang-si">කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න</span>
             </p>
             
             <div class="input-group">
-                <input type="number" id="oddInput" step="0.01" min="1.00" max="2.99" placeholder="උදා: 1.75" inputmode="decimal">
+                <input type="number" id="oddInput" step="0.01" min="1.00" max="2.99" placeholder="e.g. 1.75" inputmode="decimal">
                 <button class="btn btn-primary" id="addOddBtn">
-                    <i class="fas fa-plus"></i> එකතු කරන්න
+                    <i class="fas fa-plus"></i> <span class="lang-en">ADD</span><span class="lang-si">එකතු කරන්න</span>
                 </button>
             </div>
             
             <div class="input-group" style="justify-content: space-between;">
                 <button class="btn btn-outline" id="resetBtn">
-                    <i class="fas fa-redo"></i> යළි පිහිටුවන්න
+                    <i class="fas fa-redo"></i> <span class="lang-en">RESET</span><span class="lang-si">යළි පිහිටුවන්න</span>
                 </button>
             </div>
         </div>
         
         <!-- Odds List -->
         <div class="card">
-            <h2 class="card-title"><i class="fas fa-list-ol"></i> ඇතුළත් කළ Odd ලැයිස්තුව</h2>
+            <h2 class="card-title"><i class="fas fa-list-ol"></i> <span class="lang-en">ENTERED ODDS LIST</span><span class="lang-si">ඇතුළත් කළ Odd ලැයිස්තුව</span></h2>
             <div class="odds-list" id="enteredOddsList">
                 <div class="odds-list-header">
-                    <span>වටය</span>
-                    <span>Odd අගය</span>
-                    <span>ක්‍රියා</span>
+                    <span class="lang-en">ROUND</span>
+                    <span class="lang-si">වටය</span>
+                    <span class="lang-en">ODD VALUE</span>
+                    <span class="lang-si">Odd අගය</span>
+                    <span class="lang-en">ACTIONS</span>
+                    <span class="lang-si">ක්‍රියා</span>
                 </div>
                 <div id="oddsListItems" style="text-align: center; padding: 1rem; color: var(--gray);">
-                    තවම odd අගයන් ඇතුළත් කර නැත
+                    <span class="lang-en">No odds entered yet</span>
+                    <span class="lang-si">තවම odd අගයන් ඇතුළත් කර නැත</span>
                 </div>
             </div>
         </div>
         
         <!-- Instructions -->
         <div class="card">
-            <h2 class="card-title"><i class="fas fa-info-circle"></i> උපදෙස්</h2>
+            <h2 class="card-title"><i class="fas fa-info-circle"></i> <span class="lang-en">INSTRUCTIONS</span><span class="lang-si">උපදෙස්</span></h2>
             <div style="font-size: 0.875rem;">
                 <p style="margin-bottom: 0.75rem;">
-                    <strong>1.</strong> +10× odd එකක් ලැබෙන තුරු බලාගෙන සිටින්න
+                    <strong class="lang-en">1.</strong><strong class="lang-si">1.</strong> <span class="lang-en">Wait until a +10× odd appears</span><span class="lang-si">+10× odd එකක් ලැබෙන තුරු බලාගෙන සිටින්න</span>
                 </p>
                 <p style="margin-bottom: 0.75rem;">
-                    <strong>2.</strong> ඊළඟ round එකේ සිට odd අගයන් (1.00× - 2.99×) ඇතුළත් කරන්න
+                    <strong class="lang-en">2.</strong><strong class="lang-si">2.</strong> <span class="lang-en">Start entering odd values (1.00× - 2.99×) from the next round</span><span class="lang-si">ඊළඟ round එකේ සිට odd අගයන් (1.00× - 2.99×) ඇතුළත් කරන්න</span>
                 </p>
                 <p>
-                    <strong>3.</strong> සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න
+                    <strong class="lang-en">3.</strong><strong class="lang-si">3.</strong> <span class="lang-en">When a signal appears, play immediately using auto bet and cash out at 2×</span><span class="lang-si">සිග්නල් එකක් හමු වූ විට ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න</span>
                 </p>
             </div>
         </div>
@@ -781,25 +828,28 @@
     
     <!-- Footer -->
     <footer class="app-footer">
-        <p>&copy; 2025 Aviator Analyzer | Professional Prediction Tool</p>
+        <p class="lang-en">&copy; 2025 Aviator Analyzer | Professional Prediction Tool</p>
+        <p class="lang-si">&copy; 2025 ඒවියේටර් විශ්ලේෂකය | වෘත්තීය පුරෝකථන මෙවලම</p>
     </footer>
     
     <!-- Signal Modal -->
     <div id="signalModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">සිග්නල් හමුවී ඇත!</h3>
+                <h3 id="modalTitle" class="lang-en">SIGNAL DETECTED!</h3>
+                <h3 id="modalTitleSi" class="lang-si">සිග්නල් හමුවී ඇත!</h3>
             </div>
             <div class="modal-body">
                 <i class="fas fa-bell pulse" style="font-size: 2.5rem; color: var(--warning); margin-bottom: 1rem;"></i>
-                <p id="modalMessage">පළමු සිග්නල් එක හමුවී ඇත. ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.</p>
+                <p id="modalMessage" class="lang-en">First signal detected. Play immediately using auto bet and cash out at 2×.</p>
+                <p id="modalMessageSi" class="lang-si">පළමු සිග්නල් එක හමුවී ඇත. ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="successBtn">
-                    <i class="fas fa-check"></i> ජයග්‍රහණය
+                    <i class="fas fa-check"></i> <span class="lang-en">SUCCESS</span><span class="lang-si">ජයග්‍රහණය</span>
                 </button>
                 <button class="btn btn-danger" id="failBtn">
-                    <i class="fas fa-times"></i> පරාජය
+                    <i class="fas fa-times"></i> <span class="lang-en">FAIL</span><span class="lang-si">පරාජය</span>
                 </button>
             </div>
         </div>
@@ -809,15 +859,17 @@
     <div id="finalModal" class="modal">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, var(--danger), #8B0000);">
-                <h3>සියලු වට අසාර්ථකයි</h3>
+                <h3 class="lang-en">ALL ROUNDS FAILED</h3>
+                <h3 class="lang-si">සියලු වට අසාර්ථකයි</h3>
             </div>
             <div class="modal-body">
                 <i class="fas fa-exclamation-triangle pulse" style="font-size: 2.5rem; color: var(--danger); margin-bottom: 1rem;"></i>
-                <p>සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.</p>
+                <p class="lang-en">All rounds have failed. Try again after a +10× high odd appears.</p>
+                <p class="lang-si">සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="finalConfirmBtn">
-                    <i class="fas fa-redo"></i> තේරුම් ගතිමි
+                    <i class="fas fa-redo"></i> <span class="lang-en">UNDERSTOOD</span><span class="lang-si">තේරුම් ගතිමි</span>
                 </button>
             </div>
         </div>
@@ -826,17 +878,22 @@
     <!-- Edit Modal -->
     <div id="editModal" class="edit-modal">
         <div class="edit-modal-content">
-            <h3 style="margin-bottom: 1.5rem; color: var(--secondary);"><i class="fas fa-edit"></i> Odd අගය සංස්කරණය කරන්න</h3>
+            <h3 style="margin-bottom: 1.5rem; color: var(--secondary);">
+                <i class="fas fa-edit"></i> 
+                <span class="lang-en">EDIT ODD VALUE</span>
+                <span class="lang-si">Odd අගය සංස්කරණය කරන්න</span>
+            </h3>
             <div class="edit-input-group">
-                <label for="editOddValue">නව Odd අගය (1.00× - 2.99×)</label>
+                <label for="editOddValue" class="lang-en">New Odd Value (1.00× - 2.99×)</label>
+                <label for="editOddValue" class="lang-si">නව Odd අගය (1.00× - 2.99×)</label>
                 <input type="number" id="editOddValue" step="0.01" min="1.00" max="2.99">
             </div>
             <div class="edit-modal-buttons">
                 <button class="btn btn-outline" id="cancelEditBtn">
-                    <i class="fas fa-times"></i> අවලංගු කරන්න
+                    <i class="fas fa-times"></i> <span class="lang-en">CANCEL</span><span class="lang-si">අවලංගු කරන්න</span>
                 </button>
                 <button class="btn btn-primary" id="saveEditBtn">
-                    <i class="fas fa-save"></i> සුරකින්න
+                    <i class="fas fa-save"></i> <span class="lang-en">SAVE</span><span class="lang-si">සුරකින්න</span>
                 </button>
             </div>
         </div>
@@ -867,7 +924,9 @@
             signalModal: document.getElementById('signalModal'),
             finalModal: document.getElementById('finalModal'),
             modalTitle: document.getElementById('modalTitle'),
+            modalTitleSi: document.getElementById('modalTitleSi'),
             modalMessage: document.getElementById('modalMessage'),
+            modalMessageSi: document.getElementById('modalMessageSi'),
             successBtn: document.getElementById('successBtn'),
             failBtn: document.getElementById('failBtn'),
             finalConfirmBtn: document.getElementById('finalConfirmBtn'),
@@ -880,7 +939,8 @@
                 2: document.getElementById('round2Step'),
                 3: document.getElementById('round3Step')
             },
-            currentEditingIndex: null
+            currentEditingIndex: null,
+            langToggle: document.getElementById('langToggle')
         };
         
         // Initialize the application
@@ -890,6 +950,12 @@
                 e.preventDefault();
             });
             
+            // Set up language toggle
+            elements.langToggle.addEventListener('click', toggleLanguage);
+            
+            // Set placeholder based on language
+            updateInputPlaceholder();
+            
             // Load saved state if exists
             loadState();
             
@@ -898,6 +964,20 @@
             
             // Update UI with initial state
             updateUI();
+        }
+        
+        // Toggle between languages
+        function toggleLanguage() {
+            document.body.classList.toggle('si');
+            const isSinhala = document.body.classList.contains('si');
+            elements.langToggle.textContent = isSinhala ? 'ENGLISH' : 'සිංහල';
+            updateInputPlaceholder();
+        }
+        
+        // Update input placeholder based on language
+        function updateInputPlaceholder() {
+            const isSinhala = document.body.classList.contains('si');
+            elements.oddInput.placeholder = isSinhala ? 'උදා: 1.75' : 'e.g. 1.75';
         }
         
         // Set up event listeners
@@ -937,14 +1017,22 @@
             
             // Validate input
             if (isNaN(oddValue)) {
-                showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                const isSinhala = document.body.classList.contains('si');
+                showStatusMessage(
+                    isSinhala ? "කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න" : "Please enter a valid odd value", 
+                    "error"
+                );
                 elements.oddInput.classList.add('bounce');
                 setTimeout(() => elements.oddInput.classList.remove('bounce'), 1000);
                 return;
             }
             
             if (oddValue < 1.00 || oddValue > 2.99) {
-                showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                const isSinhala = document.body.classList.contains('si');
+                showStatusMessage(
+                    isSinhala ? "කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න" : "Please enter a value between 1.00× and 2.99×", 
+                    "error"
+                );
                 elements.oddInput.classList.add('bounce');
                 setTimeout(() => elements.oddInput.classList.remove('bounce'), 1000);
                 return;
@@ -996,7 +1084,9 @@
         
         // Handle round failure
         function handleRoundFailure() {
-            const roundNames = ["පළමු", "දෙවන", "තෙවන"];
+            const isSinhala = document.body.classList.contains('si');
+            const roundNamesEn = ["First", "Second", "Third"];
+            const roundNamesSi = ["පළමු", "දෙවන", "තෙවන"];
             
             // Mark current round as failed
             state.roundStatus[state.currentRound-1] = 'failed';
@@ -1007,14 +1097,18 @@
                 state.roundStatus[state.currentRound-1] = 'active';
                 
                 showStatusMessage(
-                    `${roundNames[state.currentRound-2]} වටයේ සිග්නල් එකක් හඳුනා ගැනීමට නොහැකි විය. ඊළඟ වටයට යන්න.`, 
+                    isSinhala ? 
+                        `${roundNamesSi[state.currentRound-2]} වටයේ සිග්නල් එකක් හඳුනා ගැනීමට නොහැකි විය. ඊළඟ වටයට යන්න.` : 
+                        `Could not detect signal in ${roundNamesEn[state.currentRound-2].toLowerCase()} round. Moving to next round.`, 
                     "warning"
                 );
             } else {
                 // All rounds failed
                 state.roundStatus[2] = 'failed';
                 showStatusMessage(
-                    "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
+                    isSinhala ? 
+                        "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න." : 
+                        "All rounds have failed. Try again after a +10× high odd appears.", 
                     "error"
                 );
                 showFinalModal();
@@ -1026,12 +1120,20 @@
         
         // Show signal modal with animation
         function showSignalModal() {
-            const roundNames = ["පළමු", "දෙවන", "තෙවන"];
+            const isSinhala = document.body.classList.contains('si');
+            const roundNamesEn = ["First", "Second", "Third"];
+            const roundNamesSi = ["පළමු", "දෙවන", "තෙවන"];
             const currentSum = state.cumulativeSums[state.currentRound-1];
             
-            elements.modalTitle.textContent = `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
+            elements.modalTitle.textContent = `${roundNamesEn[state.currentRound-1]} SIGNAL DETECTED!`;
+            elements.modalTitleSi.textContent = `${roundNamesSi[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
+            
             elements.modalMessage.textContent = 
-                `${roundNames[state.currentRound-1]} සිග්නල් එක හමුවී ඇත. ` +
+                `${roundNamesEn[state.currentRound-1]} signal detected. ` +
+                `Play immediately using auto bet and cash out at 2×.`;
+                
+            elements.modalMessageSi.textContent = 
+                `${roundNamesSi[state.currentRound-1]} සිග්නල් එක හමුවී ඇත. ` +
                 `ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.`;
             
             openModal(elements.signalModal);
@@ -1044,8 +1146,11 @@
             // Mark current round as completed
             state.roundStatus[state.currentRound-1] = 'completed';
             
+            const isSinhala = document.body.classList.contains('si');
             showStatusMessage(
-                "සුභ පැතුම්! ඔබ ජයග්‍රහණය කළා. නව වටයක් ආරම්භ කරන්න.", 
+                isSinhala ? 
+                    "සුභ පැතුම්! ඔබ ජයග්‍රහණය කළා. නව වටයක් ආරම්භ කරන්න." : 
+                    "Congratulations! You won. Start a new round.", 
                 "success"
             );
             
@@ -1056,6 +1161,8 @@
         function handleFail() {
             closeModal(elements.signalModal);
             
+            const isSinhala = document.body.classList.contains('si');
+            
             if (state.currentRound < 3) {
                 // Mark current round as failed and move to next
                 state.roundStatus[state.currentRound-1] = 'failed';
@@ -1063,14 +1170,18 @@
                 state.roundStatus[state.currentRound-1] = 'active';
                 
                 showStatusMessage(
-                    `වටය ${state.currentRound-1} පරාජය විය. ඊළඟ වටයට යන්න.`, 
+                    isSinhala ? 
+                        `වටය ${state.currentRound-1} පරාජය විය. ඊළඟ වටයට යන්න.` : 
+                        `Round ${state.currentRound-1} failed. Moving to next round.`, 
                     "warning"
                 );
             } else {
                 // All rounds failed
                 state.roundStatus[2] = 'failed';
                 showStatusMessage(
-                    "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න.", 
+                    isSinhala ? 
+                        "සියලු වටවල් අසාර්ථක විය. +10× high odd එකකින් පසු නැවත උත්සාහ කරන්න." : 
+                        "All rounds have failed. Try again after a +10× high odd appears.", 
                     "error"
                 );
                 showFinalModal();
@@ -1121,7 +1232,13 @@
             state.cumulativeSums = [0, 0, 0];
             state.roundStatus = ['active', 'pending', 'pending'];
             
-            showStatusMessage("පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න.", "info");
+            const isSinhala = document.body.classList.contains('si');
+            showStatusMessage(
+                isSinhala ? 
+                    "පද්ධතිය යළි පිහිටුවා ඇත. නව වටයක් ආරම්භ කරන්න." : 
+                    "System has been reset. Start a new round.", 
+                "info"
+            );
             
             updateUI();
             saveState();
@@ -1140,12 +1257,20 @@
             
             // Validate input
             if (isNaN(newValue)) {
-                showStatusMessage("කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න", "error");
+                const isSinhala = document.body.classList.contains('si');
+                showStatusMessage(
+                    isSinhala ? "කරුණාකර වලංගු odd අගයක් ඇතුළත් කරන්න" : "Please enter a valid odd value", 
+                    "error"
+                );
                 return;
             }
             
             if (newValue < 1.00 || newValue > 2.99) {
-                showStatusMessage("කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න", "error");
+                const isSinhala = document.body.classList.contains('si');
+                showStatusMessage(
+                    isSinhala ? "කරුණාකර 1.00× සහ 2.99× අතර අගයක් ඇතුළත් කරන්න" : "Please enter a value between 1.00× and 2.99×", 
+                    "error"
+                );
                 return;
             }
             
@@ -1230,7 +1355,8 @@
                 state.allOdds.forEach((odd, index) => {
                     html += `
                         <div class="odds-item">
-                            <span>${odd.round} වටය</span>
+                            <span class="lang-en">Round ${odd.round}</span>
+                            <span class="lang-si">${odd.round} වටය</span>
                             <span>${odd.value.toFixed(2)}×</span>
                             <div class="odd-actions">
                                 <button class="edit-btn" onclick="editOdd(${index})">
@@ -1248,7 +1374,10 @@
                 elements.enteredOddsListEl.style.padding = '0';
                 elements.enteredOddsListEl.style.color = 'inherit';
             } else {
-                elements.enteredOddsListEl.innerHTML = 'තවම odd අගයන් ඇතුළත් කර නැත';
+                elements.enteredOddsListEl.innerHTML = `
+                    <span class="lang-en">No odds entered yet</span>
+                    <span class="lang-si">තවම odd අගයන් ඇතුළත් කර නැත</span>
+                `;
                 elements.enteredOddsListEl.style.textAlign = 'center';
                 elements.enteredOddsListEl.style.padding = '1rem';
                 elements.enteredOddsListEl.style.color = 'var(--gray)';
@@ -1288,7 +1417,13 @@
                 Object.assign(state, parsedState);
                 
                 // Show reload message
-                showStatusMessage("පෙර සැසියේ දත්ත ප්‍රතිෂ්ඨාපනය කර ඇත. ඉදිරියට යාමට යළි පිහිටුවන්න බොත්තම ඔබන්න.", "info");
+                const isSinhala = document.body.classList.contains('si');
+                showStatusMessage(
+                    isSinhala ? 
+                        "පෙර සැසියේ දත්ත ප්‍රතිෂ්ඨාපනය කර ඇත. ඉදිරියට යාමට යළි පිහිටුවන්න බොත්තම ඔබන්න." : 
+                        "Previous session data restored. Click reset button to continue.", 
+                    "info"
+                );
             }
         }
         
