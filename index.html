@@ -836,13 +836,13 @@
     <div id="signalModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle" class="lang-en">SIGNAL DETECTED!</h3>
-                <h3 id="modalTitleSi" class="lang-si">සිග්නල් හමුවී ඇත!</h3>
+                <h3 class="lang-en" id="modalTitleEn">SIGNAL DETECTED!</h3>
+                <h3 class="lang-si" id="modalTitleSi">සිග්නල් හමුවී ඇත!</h3>
             </div>
             <div class="modal-body">
                 <i class="fas fa-bell pulse" style="font-size: 2.5rem; color: var(--warning); margin-bottom: 1rem;"></i>
-                <p id="modalMessage" class="lang-en">First signal detected. Play immediately using auto bet and cash out at 2×.</p>
-                <p id="modalMessageSi" class="lang-si">පළමු සිග්නල් එක හමුවී ඇත. ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.</p>
+                <p class="lang-en" id="modalMessageEn">First signal detected. Play immediately using auto bet and cash out at 2×.</p>
+                <p class="lang-si" id="modalMessageSi">පළමු සිග්නල් එක හමුවී ඇත. ක්ෂණිකව ක්‍රීඩා කර ඔටෝ බැට් යොදා 2× ඉවත් කර ගන්න.</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="successBtn">
@@ -923,9 +923,9 @@
             statusMessageEl: document.getElementById('statusMessage'),
             signalModal: document.getElementById('signalModal'),
             finalModal: document.getElementById('finalModal'),
-            modalTitle: document.getElementById('modalTitle'),
+            modalTitleEn: document.getElementById('modalTitleEn'),
             modalTitleSi: document.getElementById('modalTitleSi'),
-            modalMessage: document.getElementById('modalMessage'),
+            modalMessageEn: document.getElementById('modalMessageEn'),
             modalMessageSi: document.getElementById('modalMessageSi'),
             successBtn: document.getElementById('successBtn'),
             failBtn: document.getElementById('failBtn'),
@@ -972,6 +972,7 @@
             const isSinhala = document.body.classList.contains('si');
             elements.langToggle.textContent = isSinhala ? 'ENGLISH' : 'සිංහල';
             updateInputPlaceholder();
+            updateUI(); // Refresh UI to update all text elements
         }
         
         // Update input placeholder based on language
@@ -1125,10 +1126,10 @@
             const roundNamesSi = ["පළමු", "දෙවන", "තෙවන"];
             const currentSum = state.cumulativeSums[state.currentRound-1];
             
-            elements.modalTitle.textContent = `${roundNamesEn[state.currentRound-1]} SIGNAL DETECTED!`;
+            elements.modalTitleEn.textContent = `${roundNamesEn[state.currentRound-1]} SIGNAL DETECTED!`;
             elements.modalTitleSi.textContent = `${roundNamesSi[state.currentRound-1]} සිග්නල් එක හමුවී ඇත!`;
             
-            elements.modalMessage.textContent = 
+            elements.modalMessageEn.textContent = 
                 `${roundNamesEn[state.currentRound-1]} signal detected. ` +
                 `Play immediately using auto bet and cash out at 2×.`;
                 
